@@ -3,11 +3,14 @@ var app = new Vue({
     data: {
         msg: 'Hello Vue!',
         rawHtml: '<div >Hello Vue!</div>',
-        ssss: 'ss   2ss2'
+        ssss: false,
+        seen: false
     },
     methods: {
         xxxx: function () {
-            this.msg = this.msg.split('').reverse().join('')
+            this.msg = this.msg.split('').reverse().join('');
+            this.ssss = !this.ssss;
+            this.seen = !this.seen;
         }
     }
 })

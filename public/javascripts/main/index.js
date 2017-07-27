@@ -1,3 +1,10 @@
+Vue.component('child', {
+    // camelCase in JavaScript
+    props: ['parentMsg'],
+    template: '<span>{{ parentMsg }}</span>'
+})
+
+
 var app = new Vue({
     el: '#app',
     data: {
