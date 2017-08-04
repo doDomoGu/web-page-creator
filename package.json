@@ -7,6 +7,7 @@
     "pm2": "NODE_APP_INSTANCE=web-page-creator PORT=8888  pm2 start ./bin/www --name=web-page-creator"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "body-parser": "~1.17.1",
     "config": "^1.26.1",
     "cookie-parser": "~1.4.3",
@@ -15,6 +16,7 @@
     "express": "~4.15.2",
     "morgan": "~1.8.1",
     "redis": "^2.7.1",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "vuex": "^2.3.1"
   }
 }
