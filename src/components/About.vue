@@ -1,7 +1,7 @@
 <template>
   <div class="hello222">
     <h1>{{ msg }}</h1>
-    <router-link to="/">首页</router-link>
+    <router-link to="/">首页2233</router-link>
     aboutaboutaboutaboutaboutaboutabout
   </div>
 </template>
