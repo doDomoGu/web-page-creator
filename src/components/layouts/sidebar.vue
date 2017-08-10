@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
+  <el-menu id="sidebar" :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
 
     <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
     <el-menu-item index="/user"><i class="el-icon-menu"></i>用户</el-menu-item>
@@ -39,3 +39,9 @@
     }
   }
 </script>
+
+<style>
+  #sidebar {
+    height:100%;
+  }
+</style>
