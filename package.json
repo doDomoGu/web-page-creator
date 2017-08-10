@@ -11,6 +11,7 @@
     "pm2": "NODE_APP_INSTANCE=web-page-creator PORT=8888  pm2 start build/dev-server.js --name=web-page-creator"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "element-ui": "^1.4.2",
     "vue": "^2.3.3",
     "vue-router": "^2.6.0",
