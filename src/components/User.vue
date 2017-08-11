@@ -1,7 +1,8 @@
 <template>
   <el-row>
-    <el-col :span="22" :push="1">
-      <el-table id="user-table" :data="tableData" stripe style="width:100%">
+    <el-col :span="24" >
+      <el-table id="user-table" v-loading="loading"
+                element-loading-text="拼命加载中" :data="tableData" stripe style="width:100%">
 
         <el-table-column prop="name" label="姓名" width="180">
         </el-table-column>
@@ -31,23 +32,16 @@
       }
     },*/
     created() {
-      axios.get('http://api.web-page.com/users')
-        .then((res) => {
-        this.tableData = res.data
-      });
+      this.getData()
     },
     methods: {
       getData: function () {
+        this.loading = true;
         axios.get('http://api.web-page.com/users')
-        //请求成功后执行then          如果直接在里面访问 this，无法访问到 Vue 实例，this指向发生了变化。建议使用箭头函数,下面有讲
-          .then(function (response) {
-            console.log(response.data);
-            this.$store.state.userData = response.data;
-          })
-          //请求失败后执行catch
-          .catch(function (err) {
-            console.log(err)
-          })
+           .then((res) => {
+            this.tableData = res.data;
+            this.loading = false;
+        });
       }
     },
     data() {
@@ -55,7 +49,8 @@
         tableData: this.getData()
       }*/
       return {
-        tableData: this.$store.state.userData//this.userData
+        tableData: []  //this.userData
+
       }
     }
   }
