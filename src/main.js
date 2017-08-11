@@ -32,7 +32,15 @@ new Vue({
   store,
   template: '<App/>',
   components: {App},
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    this.checkLogin();
+  },
+  methods:{
+    checkLogin(){
+      console.log('check login');
+    }
+  }
 })
 
 
