@@ -8,7 +8,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 //import axios from 'axios'
 
-import store from '../store/index'
+import store from './store/index'
 
 Vue.use(ElementUI);
 Vue.use(Vuex);
@@ -32,7 +32,7 @@ new Vue({
   store,
   template: '<App/>',
   components: {App},
-  render: h => h(App),
+  render: h => h(App)/*,
   created() {
     this.checkLogin();
   },
@@ -40,7 +40,7 @@ new Vue({
     checkLogin(){
       console.log('check login');
     }
-  }
+  }*/
 })
 
 

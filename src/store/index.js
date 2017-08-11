@@ -25,14 +25,14 @@ const store = new Vuex.Store({
       password: '2016-05-03',
       name: '王小虎',
       sex: '上海市普陀区金沙江路 1516 弄'
-    }] //管理后台左侧导航
-  }/*,
+    }]
+  },
   mutations: {
     increment (state) {
       state.count++
     }
-  }*/
+  }
 })
-// 整合初始状态和变更函数，我们就得到了我们所需的 store
-// 至此，这个 store 就可以连接到我们的应用中
+
+
 export default store

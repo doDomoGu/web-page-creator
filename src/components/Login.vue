@@ -34,19 +34,25 @@
   }
 </script>
 
-<style >
-  #loginDialog .el-dialog{
-    padding-top :160px;
+<style lang='less' >
+  #loginDialog {
+    .el-dialog {
+      padding-top: 160px;
+    }
   }
 
 
-  #loginDialog .el-dialog__header,
-  #loginDialog .el-dialog__body {
-    width:400px;
-    margin:0 auto;
+  #loginDialog {
+    .el-dialog__header,
+    .el-dialog__body {
+      width:400px;
+      margin:0 auto;
+    }
   }
 
-  #loginDialog .el-dialog__header {
-     text-align: center;
+  #loginDialog {
+    .el-dialog__header {
+      text-align: center;
+    }
   }
 </style>

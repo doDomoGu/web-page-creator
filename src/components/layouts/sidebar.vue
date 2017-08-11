@@ -3,6 +3,7 @@
 
     <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
     <el-menu-item index="/user"><i class="el-icon-menu"></i>用户</el-menu-item>
+    <el-menu-item index="/login"><i class="el-icon-menu"></i>登录</el-menu-item>
 
     <el-submenu index="1">
       <template slot="title">

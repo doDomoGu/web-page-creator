@@ -21,6 +21,8 @@
 
 <script>
   import axios from 'axios'
+  import vuex from 'vuex'
+
 
   export default {
     name: 'user',
