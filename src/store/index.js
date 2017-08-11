@@ -8,7 +8,7 @@ Vue.use(Vuex)
 // 需要维护的状态
 const store = new Vuex.Store({
   state: {
-    count: 0,
+    count: 10,
     userData:[{
       password: '2016-05-02',
       name: '王小虎',
