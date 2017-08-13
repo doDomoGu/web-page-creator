@@ -17,13 +17,13 @@
 </template>
 
 <script>
-  import axios from 'axios'
-
   import { mapActions } from 'vuex'
+
+
+
 
   export default {
     name: 'user',
-    store: this.$store,
     //beforeCreate
     /*computed: {
       data() {
@@ -36,11 +36,15 @@
     methods: {
       getData: function () {
         this.loading = true;
-        axios.get('http://api.web-page.com/users')
-           .then((res) => {
+        console.log(this);return ;
+        this.$axios.get('http://api.web-page.com/users')
+          .then((res) => {
             this.tableData = res.data;
             this.loading = false;
-        });
+          })
+          .catch(function(err){
+            console.log(err);
+          })
       }
     },
     data() {
