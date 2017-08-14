@@ -25,13 +25,43 @@
 
   export default {
     name: 'user',
+      created(){
+          //console.log(this.$store);
+          //console.log(this.$route);
+          this.$store.dispatch('addUser',{
+              name:'22',password:'22233',sex:2,status:1
+          })//——（“action名”，data）;
+      },
+      method:{
+          /*mapMutations([
+              'LIST'=>(this.$store)
+                       ])*/
+
+      },
+      computed: {
+          count111() {
+              /*console.log(this.$store);
+              console.log(this.$store.state.users);
+              console.log(this.$store.state.users.);
+              console.log(this.$store.getters.doneTodos);*/
+
+              //console.log(this.$store.getters.doneTodosCount);
+              console.log(this.$store._modules)
+
+              //this.$store.users.commit('increment',(this.$store.state.users));
+              return this.$store.state.users.users_list;
+
+          }
+      },
+
+
     //beforeCreate
     /*computed: {
       data() {
         return {tableData : this.$store.state.userData}
       }
     },*/
-    created() {
+    /*created() {
       this.getData()
     },
     methods: {
@@ -53,13 +83,13 @@
             that.loading = false;
           })
       }
-    },
+    },*/
     data() {
       /*return {
         tableData: this.getData()
       }*/
       return {
-        tableData: []  //this.userData
+        tableData: this.$store.state.users.users_list  //this.userData
 
       }
     }

@@ -5,12 +5,19 @@ const module_websites = {
     data:[]
   },
   mutations: {
-    increment22 (state) {
+    increment (state) {
       state.count2++
     }
   },
   actions: {},
-  getters: {}
+  getters: {
+      doneTodosCount22: (state, getters) => {
+          return getters.doneTodos.length
+      },
+      doneTodos3: state => {
+          return state.todos.filter(xx => !xx.done)
+      }
+  }
 }
 
 export default module_websites
