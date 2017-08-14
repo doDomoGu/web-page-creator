@@ -11,7 +11,7 @@ import 'element-ui/lib/theme-default/index.css'
 import store from './store/index'
 
 Vue.use(ElementUI);
-Vue.use(Vuex);
+/*Vue.use(Vuex);*/
 
 //Vue.prototype.$axios = axios
 

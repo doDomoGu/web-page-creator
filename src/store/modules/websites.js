@@ -1,11 +1,12 @@
 const module_websites = {
   state: {
     count: 20,
+    count2: 20,
     data:[]
   },
   mutations: {
-    increment (state) {
-      state.count++
+    increment22 (state) {
+      state.count2++
     }
   },
   actions: {},

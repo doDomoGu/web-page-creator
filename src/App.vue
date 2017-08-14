@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <sidebar></sidebar>
-        <div id="main">{{ count222 }}
+        <div id="main">{{ count111 }}
             <router-view></router-view>
         </div>
     </div>
@@ -11,23 +11,23 @@
     import Sidebar from './components/layouts/sidebar.vue'
     import { mapState } from 'vuex'
 
+
     var localCount = 1;
     export default {
         name: 'app',
         created(){
-            console.log(this.$store);
-            console.log(this.$route);
+            //console.log(this.$store);
+            //console.log(this.$route);
             //this.$store.dispatch('storeMovieID',this.$route.params.ID)//——（“action名”，data）;
         },
-        computed:mapState(
-            {
-                count222(state) {
-                    var _state = state.websites;
-                    _state.count = _state.count + localCount;
-                    return _state.count;
-                }
+        computed: {
+            count111() {
+                console.log(this.$store);
+                this.$store.users.commit('increment',(this.$store.state.users));
+                return this.$store.state.users.count;
+
             }
-        ),
+        },
         components: { 'sidebar': Sidebar }
     }
 </script>
