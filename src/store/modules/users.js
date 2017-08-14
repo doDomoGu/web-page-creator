@@ -8,21 +8,18 @@ const state = {
         { id: 3, name: '.33.', password: '123123b', sex: 0, status: true },
         { id: 4, name: '.44.', password: '123123c', sex: 1, status: false }
     ]
-}
+};
 
 const actions = {
-    // 保存ID  storeMovieID为上面的"action名"
-    addUser({ commit }, res) {
-        //此处是触发mutation的 STORE_MOVIE_ID为"mutation名"
+    [types.ADD]({ commit }, res) {
         commit(types.ADD, res);
+    },
+    increment2 (context) {
+        context.commit('increment')
     }
-
-}
+};
 
 const getters = {
-    // 图片公共 src 的获取 getter函数：state=> state.数据名
-    //getContextPathSrc: state => state.contextPathSrc,
-    // 获取usersData
     users_list: state => {
         if(state.usersData == ''){
             return localStorage.getItem('usersData');
@@ -30,15 +27,18 @@ const getters = {
             return state.usersData;
         }
     },
-}
+    getCount : state => state.count
+};
 
 const mutations = {
-    // 修改ID 中括号代表常量 我们可使用ES2015风格的计算属性命名功能来使用一个常量[types.STORE_MOVIE_ID]作为函数名
     [types.ADD]( state, res) {
         state.usersData.push(res);
         //state.usersData = res;
+    },
+    increment (state) {
+        state.count++
     }
-}
+};
 
 export default {
     state,

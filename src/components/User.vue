@@ -8,7 +8,7 @@
             <el-table-column prop="sex" label="性别">
             </el-table-column>
         </el-table>
-        <!--<el-button id="get-data-btn" class="el-button&#45;&#45;primary" @click="getData()" >获取</el-button>-->
+        <el-button id="get-data-btn" class="el-button--primary" @click="increment()" >获取</el-button>
     </div>
 </template>
 
@@ -22,14 +22,18 @@
     name: 'user',
     created(){
         this.loading = false;
-        console.log(this.$store.state.users.usersData);
+
       //console.log(this.$store);
       //console.log(this.$route);
       /*this.$store.dispatch('addUser',{
           name:'22',password:'22233',sex:2,status:1
       })*///——（“action名”，data）;
     },
-      method:{
+      methods:{
+          increment:function(){
+              this.$store.dispatch('increment2');
+              console.log(this.$store.getters.getCount)
+          }
           /*mapMutations([
               'LIST'=>(this.$store)
                        ])*/
@@ -43,7 +47,8 @@
               console.log(this.$store.getters.doneTodos);*/
 
               //console.log(this.$store.getters.doneTodosCount);
-              console.log(this.$store._modules)
+              console.log(this.$store.getters.getCount);
+
 
               //this.$store.users.commit('increment',(this.$store.state.users));
               return this.$store.state.users.users_list;
