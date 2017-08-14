@@ -12,7 +12,6 @@
     import { mapState,mapMutations} from 'vuex'
 
 
-    var localCount = 1;
     export default {
         name: 'app',
 

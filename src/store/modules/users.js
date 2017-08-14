@@ -3,10 +3,10 @@ import * as types from './../types.js';
 const state = {
     count: 10,
     usersData:[
-        { id: 1, username: '.11.', password: '123123', sex: 2, status: true },
-        { id: 2, username: '.22.', password: '123123a', sex: 1, status: false },
-        { id: 3, username: '.33.', password: '123123b', sex: 0, status: true },
-        { id: 4, username: '.44.', password: '123123c', sex: 1, status: false }
+        { id: 1, name: '.11.', password: '123123', sex: 2, status: true },
+        { id: 2, name: '.22.', password: '123123a', sex: 1, status: false },
+        { id: 3, name: '.33.', password: '123123b', sex: 0, status: true },
+        { id: 4, name: '.44.', password: '123123c', sex: 1, status: false }
     ]
 }
 

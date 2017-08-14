@@ -1,37 +1,34 @@
 <template>
     <div class="user-main">
-      <el-table id="user-table" v-loading="loading" element-loading-text="拼命加载中" :data="tableData" stripe style="width:100%">
-        <el-table-column prop="name" label="姓名" width="180">
-        </el-table-column>
-        <el-table-column prop="password" label="密码" width="180">
-        </el-table-column>
-        <el-table-column prop="sex" label="性别">
-        </el-table-column>
-      </el-table>
-
-      <el-button id="get-data-btn" class="el-button--primary" @click="getData()" >获取</el-button>
-
+        <el-table id="user-table" v-loading="loading" element-loading-text="拼命加载中" :data="tableData" stripe style="width:100%">
+            <el-table-column prop="name" label="姓名" width="180">
+            </el-table-column>
+            <el-table-column prop="password" label="密码" width="180">
+            </el-table-column>
+            <el-table-column prop="sex" label="性别">
+            </el-table-column>
+        </el-table>
+        <!--<el-button id="get-data-btn" class="el-button&#45;&#45;primary" @click="getData()" >获取</el-button>-->
     </div>
-
-
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
-
-  import axios from 'axios'
+    import { mapActions,mapMutations } from 'vuex'
+    //import axios from 'axios'
 
 
 
   export default {
     name: 'user',
-      created(){
-          //console.log(this.$store);
-          //console.log(this.$route);
-          this.$store.dispatch('addUser',{
-              name:'22',password:'22233',sex:2,status:1
-          })//——（“action名”，data）;
-      },
+    created(){
+        this.loading = false;
+        console.log(this.$store.state.users.usersData);
+      //console.log(this.$store);
+      //console.log(this.$route);
+      /*this.$store.dispatch('addUser',{
+          name:'22',password:'22233',sex:2,status:1
+      })*///——（“action名”，data）;
+    },
       method:{
           /*mapMutations([
               'LIST'=>(this.$store)
@@ -89,7 +86,7 @@
         tableData: this.getData()
       }*/
       return {
-        tableData: this.$store.state.users.users_list  //this.userData
+        tableData: this.$store.state.users.usersData  //this.userData
 
       }
     }
