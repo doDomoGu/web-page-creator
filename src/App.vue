@@ -1,50 +1,57 @@
 <template>
-  <div id="app">
-    <sidebar></sidebar>
-    <div id="main">{{ count222 }}
-      <router-view></router-view>
+    <div id="app">
+        <sidebar></sidebar>
+        <div id="main">{{ count222 }}
+            <router-view></router-view>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import Sidebar from './components/layouts/sidebar.vue'
-  import { mapState } from 'vuex'
+    import Sidebar from './components/layouts/sidebar.vue'
+    import { mapState } from 'vuex'
 
-  var localCount = 1;
-  export default {
-      name: 'app',
-      computed:mapState(
-          {
-          count222(state) {
-            var _state = state.websites;
-            _state.count = _state.count + localCount;
-            return _state.count;
-          }
-        }
-      ),
-      components: { 'sidebar': Sidebar }
-  }
+    var localCount = 1;
+    export default {
+        name: 'app',
+        created(){
+            console.log(this.$store);
+            console.log(this.$route);
+            //this.$store.dispatch('storeMovieID',this.$route.params.ID)//——（“action名”，data）;
+        },
+        computed:mapState(
+            {
+                count222(state) {
+                    var _state = state.websites;
+                    _state.count = _state.count + localCount;
+                    return _state.count;
+                }
+            }
+        ),
+        components: { 'sidebar': Sidebar }
+    }
 </script>
 
 <style>
-  body {
-    margin:0;
-  }
-  html, body, #app{
-    height:100%;
-  }
-  #main {
-     margin-left:240px;
-     padding:24px;
-  }
+    body {
+        margin:0;
+    }
 
-/*#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}*/
+    html, body, #app {
+        height:100%;
+    }
+
+    #main {
+        margin-left:240px;
+        padding:24px;
+    }
+
+    /*#app {
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 60px;
+    }*/
 </style>
