@@ -19,6 +19,7 @@
 <script>
   import { mapActions } from 'vuex'
 
+  import axios from 'axios'
 
 
 
@@ -36,14 +37,20 @@
     methods: {
       getData: function () {
         this.loading = true;
-        console.log(this);return ;
-        this.$axios.get('http://api.web-page.com/users')
+        var that = this;
+        //axios.get('http://api.web-page.com/users')
+        axios({
+          methos:'get',
+          url:'http://api.web-page2.com/users'
+        })
           .then((res) => {
             this.tableData = res.data;
             this.loading = false;
           })
           .catch(function(err){
             console.log(err);
+            that.tableData = [];
+            that.loading = false;
           })
       }
     },

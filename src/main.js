@@ -6,14 +6,14 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import axios from 'axios'
+//import axios from 'axios'
 
 import store from './store/index'
 
 Vue.use(ElementUI);
 Vue.use(Vuex);
 
-Vue.prototype.$axios = axios
+//Vue.prototype.$axios = axios
 
 
 Vue.config.productionTip = false
@@ -33,7 +33,7 @@ new Vue({
   el: '#app',
   router,
   store,
-  axios,
+  //axios,
   //template: '<App></App>',
   //components: {App},
   render: h => h(App)

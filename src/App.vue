@@ -10,15 +10,16 @@
 <script>
   import Sidebar from './components/layouts/sidebar.vue'
   import { mapState } from 'vuex'
+
   var localCount = 1;
   export default {
       name: 'app',
       computed:mapState(
           {
-
           count222(state) {
-            state.count = state.count + localCount;
-            return state.count;
+            var _state = state.websites;
+            _state.count = _state.count + localCount;
+            return _state.count;
           }
         }
       ),
