@@ -1,12 +1,11 @@
 <template>
     <div class="user-main">
         <el-table id="user-table" v-loading="loading" element-loading-text="拼命加载中" :data="tableData" stripe style="width:100%">
-            <el-table-column prop="name" label="姓名" width="180">
-            </el-table-column>
-            <el-table-column prop="password" label="密码" width="180">
-            </el-table-column>
-            <el-table-column prop="sex" label="性别">
-            </el-table-column>
+            <el-table-column prop="id" label="ID" width="80"></el-table-column>
+            <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+            <el-table-column prop="password" label="密码" width="180"></el-table-column>
+            <el-table-column prop="sex" label="性别"></el-table-column>
+            <el-table-column prop="status" label="状态"></el-table-column>
         </el-table>
         <el-button id="get-data-btn" class="el-button--primary" @click="increment()" >获取</el-button>
     </div>
@@ -33,6 +32,20 @@
           increment:function(){
               //this.$store.dispatch('increment2',{count:11});
               console.log(this.$store.getters.getCount)
+          },
+          dataFormat:function(data){
+              for(var i in data){
+                  for(var j in data[i]){
+                      if(j=='status'){
+                          data[i][j] = data[i][j]==1?'正常':'禁用';
+                      }else if(j=='sex'){
+                          data[i][j] = data[i][j]==1?'男':(data[i][j]==2?'女':'N/A');
+                      }
+                  }
+
+              }
+
+              return data;
           }
           /*mapMutations([
               'LIST'=>(this.$store)
@@ -91,7 +104,7 @@
         tableData: this.getData()
       }*/
       return {
-        tableData: this.$store.state.users.usersData  //this.userData
+        tableData: this.dataFormat(this.$store.state.users.usersData)  //this.userData
 
       }
     }

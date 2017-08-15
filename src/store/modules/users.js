@@ -3,10 +3,10 @@ import * as types from './../types.js';
 const state = {
     count: 10,
     usersData:[
-        { id: 1, name: '.11.', password: '123123', sex: 2, status: true },
-        { id: 2, name: '.22.', password: '123123a', sex: 1, status: false },
-        { id: 3, name: '.33.', password: '123123b', sex: 0, status: true },
-        { id: 4, name: '.44.', password: '123123c', sex: 1, status: false }
+        { id: 1, name: '张三', password: '123123', sex: 2, status: 1 },
+        { id: 2, name: '夏侯惇', password: '123123a', sex: 1, status: 0 },
+        { id: 3, name: '张晓松', password: '123123b', sex: 0, status: 1 },
+        { id: 4, name: '赵菲菲', password: '123123c', sex: 1, status: 0 }
     ]
 };
 
@@ -44,10 +44,10 @@ const mutations = {
         state.usersData.push(res);
     },
     [types.DELETE](state, res) {
-        
+
         state.usersData.push(res);
     },
-    [types.ADD]( state, res) {
+    [types.UPDATE]( state, res) {
         state.usersData.push(res);
     }/*,
     increment (state, obj) {
