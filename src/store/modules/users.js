@@ -14,9 +14,18 @@ const actions = {
     [types.ADD]({ commit }, res) {
         commit(types.ADD, res);
     },
-    increment2 (context) {
-        context.commit('increment')
-    }
+    [types.UPDATE]({ commit }, res) {
+        commit(types.UPDATE, res);
+    },
+    [types.DELETE]({ commit }, res) {
+        commit(types.DELETE, res);
+    },
+
+
+    /*,
+    increment2 (context,obj) {
+        context.commit('increment',obj)
+    }*/
 };
 
 const getters = {
@@ -31,13 +40,19 @@ const getters = {
 };
 
 const mutations = {
+    [types.ADD](state, res) {
+        state.usersData.push(res);
+    },
+    [types.DELETE](state, res) {
+        
+        state.usersData.push(res);
+    },
     [types.ADD]( state, res) {
         state.usersData.push(res);
-        //state.usersData = res;
-    },
-    increment (state) {
-        state.count++
-    }
+    }/*,
+    increment (state, obj) {
+        state.count+= obj.count
+    }*/
 };
 
 export default {

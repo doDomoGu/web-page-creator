@@ -31,7 +31,7 @@
     },
       methods:{
           increment:function(){
-              this.$store.dispatch('increment2');
+              //this.$store.dispatch('increment2',{count:11});
               console.log(this.$store.getters.getCount)
           }
           /*mapMutations([

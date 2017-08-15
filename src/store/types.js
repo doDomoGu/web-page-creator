@@ -1,5 +1,6 @@
 export const ADD = 'ADD';
-export const LIST = 'LIST';
+export const DELETE = 'DELETE';
+export const UPDATE = 'UPDATE';
 /*
 export const ADD = 'ADD';
 export const ADD = 'ADD';*/
