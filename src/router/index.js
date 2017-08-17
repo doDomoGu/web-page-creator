@@ -10,7 +10,31 @@ import Logout from '../components/Logout'
 
 Vue.use(Router);
 
+
+//constantRouterMap  基础路由 不需登录访问权限
+export const constantRouterMap = [
+    {
+        path: '/login',
+        component: Login,
+        name: '登录页',
+        hidden: true //hidden为自定义属性，侧边栏那章会纤细解释
+    },
+    {
+        path: '/',
+        component: Index,
+        name: '首页'/*,
+        redirect: '/dashboard',
+        children: [{ path: 'dashboard', component: dashboard }]*/
+    },
+];
+
+
 export default new Router({
+    mode : 'history',
+    routes: constantRouterMap
+});
+
+/*export default new Router({
     mode : 'history',
     routes: [
         {
@@ -39,4 +63,4 @@ export default new Router({
             component: Logout
         }
     ]
-})
+})*/
