@@ -5,8 +5,15 @@
                 <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item label="密码">
-                <el-input type="password" v-model="form.password"></el-input>
+                <el-popover :content="errormsg" placement="right" trigger="manual" ref="popover4"  effect="light">
+                </el-popover>
+                <el-input type="password" v-model="form.password" v-popover:popover4></el-input>
+
+                <!--<el-input type="password" v-model="form.password"></el-input>-->
             </el-form-item>
+            <!--<el-form-item label="">
+                <el-alert :title="errormsg" type="error" v-show=errormsg?true:false></el-alert>
+            </el-form-item>-->
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">登录</el-button>
             </el-form-item>
@@ -15,23 +22,62 @@
 </template>
 
 <script>
-  export default {
-    name: 'LoginForm',
-    data() {
-      return {
-        form: {
-          username: '',
-          password: ''
-        }
-      }
+    //import axios from 'axios';
 
-    },
-    methods: {
-      onSubmit() {
-        console.log('submit!');
-      }
+
+    export default {
+        name: 'LoginForm',
+        data() {
+            return {
+                form: {
+                    username: 'name123333',
+                    password: '123123'
+                },
+                errormsg: ''
+            }
+        },
+        methods: {
+            onSubmit() {
+                this.$store.dispatch('LOGIN', this.form).then((res) => {
+                    if(res.data.success){
+                        this.$router.push({ path: '/' }); //登录成功之后重定向到首页
+                    }else{
+                        //console.log('submit login failure');
+                        //this.errormsg = res.data.errormsg;
+
+                        this.$message.error(res.data.errormsg); //登录失败提示错误
+                    }
+                }).catch(err => {
+                    //console.log('submit login error');
+                    //console.log(err);
+                    this.$message.error(err); //登录失败提示错误
+                });
+
+
+
+                /*axios({
+                    method:'post',
+                    url:'http://api.web-page.com/auths',
+                    params:this.form
+                })
+                .then((res) => {
+                    console.log(res);
+                    //this.tableData = res.data;
+                    this.loading = false;
+                })
+                .catch(function(err){
+                    console.log(err);
+                    //that.tableData = [];
+                    that.loading = false;
+                })*/
+
+
+
+                /*console.log(this.form);
+                console.log('submit!');*/
+            }
+        }
     }
-  }
 </script>
 
 <style lang='less' >
