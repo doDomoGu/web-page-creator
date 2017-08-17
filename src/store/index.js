@@ -7,6 +7,7 @@ import websites from './modules/websites';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+    /*'auth',*/
     modules: {
         users,
         //websites
