@@ -10,6 +10,7 @@
         "no-console":"off",
         "no-unused-vars":"off",
         "no-unreachable":"off",
-        "no-redeclare":"warn"
+        "no-redeclare":"warn",
+        "indent": ["error", 4]
     }
 }
