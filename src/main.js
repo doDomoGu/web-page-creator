@@ -38,8 +38,10 @@ router.beforeEach((to, from, next) => {
         if (to.path === '/login') {
             next({ path: '/' }); //登录页重定向到首页
         } else {
-            var matchFlag = false;
             var roles = store.getters.auth_roles;
+
+            /*var matchFlag = false;
+
 
             if(router.options.constantRoutes.indexOf(to.path) !== -1 ) { //不用登陆的页面
                 matchFlag = true;
@@ -66,26 +68,22 @@ router.beforeEach((to, from, next) => {
                         }
                     }
                 }
-            }
+            }*/
 
 
-            if(matchFlag){
+            //if(matchFlag){
                 //加载角色对应的路由
                 store.dispatch('GenerateRoutes', { roles:roles,router:router }).then(() => { // 生成可访问的路由表
                     router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
                 })
-
+                console.log('22222');
                 next();
-            }else{
-
-            }
-
-
+           /* }else{
+                console.log(404);
+                //不允许的路由操作  返回404
 
 
-
-
-
+            }*/
 
            /* if (store.getters.auth_roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
                 store.dispatch('GetAuthInfo').then(res => { // 拉取info

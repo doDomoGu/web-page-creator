@@ -7,6 +7,7 @@ import User from '../components/User'
 import Website from '../components/Website'
 import Login from '../components/Login'
 import Logout from '../components/Logout'
+import NotFound404 from '../components/NotFound404'
 
 
 Vue.use(Router);
@@ -65,7 +66,7 @@ var roleOneRouterMap = [
         path: '/user',
         name: '用户',
         component: User,
-        roles: ['super_admin','user_admin']
+        roles: ['super_admi22n','user_admin']
     },
     {
         path: '/website',
@@ -82,6 +83,7 @@ for(var i in roleOneRouterMap){
     roleOneRoutes[roleOneRouterMap[i].path] = roleOneRouterMap[i].roles;
 }
 
+var router404 = { path: '*', name: '404', component: NotFound404 }
 
 
 export default new Router({
@@ -91,7 +93,8 @@ export default new Router({
     roleAllRouterMap : roleAllRouterMap,
     roleAllRoutes : roleAllRoutes,
     roleOneRouterMap : roleOneRouterMap,
-    roleOneRoutes : roleOneRoutes
+    roleOneRoutes : roleOneRoutes,
+    router404: router404
 
 });
 
