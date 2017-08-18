@@ -7,8 +7,8 @@ const state = {
     is_login: false,
     user_id: 0,
     token: '',
-    roles: []
-
+    roles: [],
+    add_routes: []
 };
 
 const actions = {
@@ -50,6 +50,26 @@ const actions = {
                 reject(error);
             });*/
     },
+    GenerateRoutes({commit}, data){
+        var routes = [];
+        var routeAll = data.router.options.roleAllRouterMap;
+        for(var i in routeAll){
+            routes.push(routeAll[i]);
+        }
+
+        var roles = data.roles;
+        var routeOne = data.router.options.roleOneRouterMap;
+        for(var i in routeOne){
+            for(var j in roles){
+                if(routeOne[i].roles.indexOf(roles[j]) !== -1){
+                    routes.push(routeOne[i]);
+                }
+            }
+        }
+        commit('setAddRoutes',routes);
+
+
+    },
     GetAuthInfo({commit}){
         console.log(this.is_login);
     }
@@ -77,7 +97,8 @@ const actions = {
 const getters = {
     auth_token: state => state.token,
     auth_roles: state => state.roles,
-    auth_user_id: state => state.user_id
+    auth_user_id: state => state.user_id,
+    auth_add_routes: state => state.add_routes
 
     /*users_list: state => {
         if(state.usersData == ''){
@@ -101,6 +122,9 @@ const mutations = {
     },
     setRoles: (state, data) => {
         state.roles = data.roles;
+    },
+    setAddRoutes: (state, data) => {
+        state.add_routes = data;
     },
     /*cleanLoginState: (state) => {
         state.is_login = false;
