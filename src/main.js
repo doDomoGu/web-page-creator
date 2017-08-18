@@ -28,13 +28,24 @@ store.commit('increment')
 
 console.log(store.state.count) // -> 1*/
 /* eslint-disable no-new */
+
+
 var routersNotNeedLogin = ['/','/login'];
+
+
+
 
 router.beforeEach((to, from, next) => {
     if (store.getters.auth_token) { // 判断是否有token
         if (to.path === '/login') {
-            next({ path: '/' });
+            next({ path: '/' }); //登录页重定向到首页
         } else {
+            var roles = store.getters.auth_roles;
+
+
+
+
+
             if (store.getters.auth_roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
                 console.log('=======');
 
@@ -53,7 +64,7 @@ router.beforeEach((to, from, next) => {
             }
         }
     } else {
-        if (routersNotNeedLogin.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
+        if (routersNotNeedLogin.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
             next();
         } else {
             next('/login'); // 否则全部重定向到登录页

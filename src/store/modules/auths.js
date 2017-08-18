@@ -27,7 +27,7 @@ const actions = {
                 commit('setToken',{token:res.data.token});
                 commit('setLoginState');
                 commit('setUserId',{user_id:res.data.user_id});
-                //commit('setRoles',{token:res.data.token});
+                commit('setRoles',{roles:res.data.roles});
                 resolve(res);
             })
             .catch(error => {
@@ -99,10 +99,10 @@ const mutations = {
     setUserId: (state, data) => {
         state.user_id = data.user_id;
     },
-    /*setRoles: (state, data) => {
-        state.token = data.token;
+    setRoles: (state, data) => {
+        state.roles = data.roles;
     },
-    cleanLoginState: (state) => {
+    /*cleanLoginState: (state) => {
         state.is_login = false;
         state.user_id = 0;
         state.token = '';

@@ -14,7 +14,9 @@
 
     export default {
         name: 'app',
-
+        /*created(){
+            console.log(this.$router);
+        },*/
         components: { 'sidebar': Sidebar }
     }
 </script>
