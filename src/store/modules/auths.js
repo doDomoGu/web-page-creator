@@ -4,8 +4,10 @@ import Cookies from 'js-cookie'
 import axios from '../../axios'
 
 const state = {
-    isLogin: false,
+    is_login: false,
+    user_id: 0,
     token: '',
+    roles: []
 
 };
 
@@ -22,6 +24,10 @@ const actions = {
                 }
             )
             .then((res) => {
+                commit('setToken',{token:res.data.token});
+                commit('setLoginState');
+                commit('setUserId',{user_id:res.data.user_id});
+                //commit('setRoles',{token:res.data.token});
                 resolve(res);
             })
             .catch(error => {
@@ -43,6 +49,9 @@ const actions = {
             }).catch(error => {
                 reject(error);
             });*/
+    },
+    GetAuthInfo({commit}){
+        console.log(this.is_login);
     }
 
 /*
@@ -66,6 +75,10 @@ const actions = {
 };
 
 const getters = {
+    auth_token: state => state.token,
+    auth_roles: state => state.roles,
+    auth_user_id: state => state.user_id
+
     /*users_list: state => {
         if(state.usersData == ''){
             return localStorage.getItem('usersData');
@@ -77,9 +90,25 @@ const getters = {
 };
 
 const mutations = {
-    /*SET_TOKEN: (state, token) => {
-        state.token = token;
+    setToken: (state, data) => {
+        state.token = data.token;
+    },
+    setLoginState: (state) => {
+        state.is_login = true;
+    },
+    setUserId: (state, data) => {
+        state.user_id = data.user_id;
+    },
+    /*setRoles: (state, data) => {
+        state.token = data.token;
+    },
+    cleanLoginState: (state) => {
+        state.is_login = false;
+        state.user_id = 0;
+        state.token = '';
+        state.roles = [];
     },*/
+
 };
 
 export default {

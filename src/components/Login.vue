@@ -30,7 +30,7 @@
         data() {
             return {
                 form: {
-                    username: 'name123333',
+                    username: 'name123',
                     password: '123123'
                 },
                 errormsg: ''
@@ -45,7 +45,7 @@
                         //console.log('submit login failure');
                         //this.errormsg = res.data.errormsg;
 
-                        this.$message.error(res.data.errormsg); //登录失败提示错误
+                        this.$message.error(res.data.error_msg); //登录失败提示错误
                     }
                 }).catch(err => {
                     //console.log('submit login error');
