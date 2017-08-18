@@ -12,7 +12,10 @@ const state = {
 };
 
 const actions = {
-    LOGIN({ commit }, formData) {
+    Logout({ commit }){
+        commit('cleanLoginState');
+    },
+    Login({ commit }, formData) {
         const username = formData.username.trim();
         const password = formData.password.trim();
         return new Promise((resolve, reject) => {
@@ -150,12 +153,13 @@ const mutations = {
     setAddRoutes: (state, data) => {
         state.add_routes = data;
     },
-    /*cleanLoginState: (state) => {
+    cleanLoginState: (state) => {
         state.is_login = false;
         state.user_id = 0;
         state.token = '';
         state.roles = [];
-    },*/
+        Cookies.remove('wpc_auth_token');
+    },
 
 };
 

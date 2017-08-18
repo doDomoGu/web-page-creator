@@ -6,7 +6,7 @@ import About from '../components/About'
 import User from '../components/User'
 import Website from '../components/Website'
 import Login from '../components/Login'
-import Logout from '../components/Logout'
+//import Logout from '../components/Logout'
 import NotFound404 from '../components/NotFound404'
 
 
@@ -48,8 +48,8 @@ for(var i in constantRouterMap){
 var roleAllRouterMap = [
     {
         path: '/logout',
-        name: '登出',
-        component: Logout
+        name: '登出'/*,
+        component: Logout*/
     }
 ];
 

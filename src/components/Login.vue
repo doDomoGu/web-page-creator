@@ -38,7 +38,7 @@
         },
         methods: {
             onSubmit() {
-                this.$store.dispatch('LOGIN', this.form).then((res) => {
+                this.$store.dispatch('Login', this.form).then((res) => {
                     if(res.data.success){
                         this.$router.push({ path: '/' }); //登录成功之后重定向到首页
                     }else{

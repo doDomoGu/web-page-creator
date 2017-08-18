@@ -70,7 +70,11 @@ router.beforeEach((to, from, next) => {
             //return tokenByCookie;
         }
     }
-
+    if (to.path === '/logout') {
+        store.dispatch('Logout').then(() => { // 生成可访问的路由表
+            next({path: '/'})
+        })
+    }
 
 
     if (store.getters.auth_token) { // 判断是否有token
@@ -115,7 +119,6 @@ router.beforeEach((to, from, next) => {
                 store.dispatch('GenerateRoutes', { roles:roles,router:router }).then(() => { // 生成可访问的路由表
                     router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
                 })
-                console.log('22222');
                 next();
            /* }else{
                 console.log(404);
