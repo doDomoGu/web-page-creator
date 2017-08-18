@@ -28,6 +28,14 @@ const actions = {
                 commit('setLoginState');
                 commit('setUserId',{user_id:res.data.user_id});
                 commit('setRoles',{roles:res.data.roles});
+
+                /*Cookies.set('name', 'value', { expires: 7, path: '' });//7天过期
+                Cookies.set('name', { foo: 'bar' });//设置一个json
+                b、读取cookie
+                Cookies.get('name');//获取cookie
+                Cookies.get(); #读取所有的cookie
+                c、删除cookie
+                Cookies.remove('name'); #删除cookie时必须是同一个路径。*/
                 resolve(res);
             })
             .catch(error => {
@@ -65,11 +73,11 @@ const actions = {
             for(var j in roles){
                 if(routeOne[i].roles.indexOf(roles[j]) !== -1){
                     routes.push(routeOne[i]);
-                    console.log(routeOne[i]);
+  //                  console.log(routeOne[i]);
                 }
             }
         }
-console.log(data.router.options.router404)
+//console.log(data.router.options.router404)
         //兜底 404页面
         routes.push(
             data.router.options.router404
@@ -80,28 +88,31 @@ console.log(data.router.options.router404)
 
 
     },
-    GetAuthInfo({commit}){
-        console.log(this.is_login);
+    GetAuthInfo({commit},token){
+        return new Promise((resolve, reject) => {
+            axios.get(
+                '/auths',
+                {
+                    params: {
+                        token: token
+                    }
+                }
+            )
+                .then((res) => {
+                    commit('setToken',{token:res.data.token});
+                    commit('setLoginState');
+                    commit('setUserId',{user_id:res.data.user_id});
+                    commit('setRoles',{roles:res.data.roles});
+
+
+                    resolve(res);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
     }
 
-/*
-
-    [types.ADD]({ commit }, res) {
-        commit(types.ADD, res);
-    },
-    [types.UPDATE]({ commit }, res) {
-        commit(types.UPDATE, res);
-    },
-    [types.DELETE]({ commit }, res) {
-        commit(types.DELETE, res);
-    },
-*/
-
-
-    /*,
-    increment2 (context,obj) {
-        context.commit('increment',obj)
-    }*/
 };
 
 const getters = {
@@ -121,8 +132,11 @@ const getters = {
 };
 
 const mutations = {
-    setToken: (state, data) => {
+    setToken: (state, data, notUpdateToken) => {
         state.token = data.token;
+        if(!notUpdateToken) {
+            Cookies.set('wpc_auth_token', data.token, {expires: 1, path: ''});
+        }
     },
     setLoginState: (state) => {
         state.is_login = true;

@@ -52,29 +52,6 @@
                     //console.log(err);
                     this.$message.error(err); //登录失败提示错误
                 });
-
-
-
-                /*axios({
-                    method:'post',
-                    url:'http://api.web-page.com/auths',
-                    params:this.form
-                })
-                .then((res) => {
-                    console.log(res);
-                    //this.tableData = res.data;
-                    this.loading = false;
-                })
-                .catch(function(err){
-                    console.log(err);
-                    //that.tableData = [];
-                    that.loading = false;
-                })*/
-
-
-
-                /*console.log(this.form);
-                console.log('submit!');*/
             }
         }
     }

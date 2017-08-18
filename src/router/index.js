@@ -66,7 +66,7 @@ var roleOneRouterMap = [
         path: '/user',
         name: '用户',
         component: User,
-        roles: ['super_admi22n','user_admin']
+        roles: ['super_admin','user_admin']
     },
     {
         path: '/website',

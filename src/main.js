@@ -7,6 +7,8 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 //import axios from 'axios'
+import Cookies from 'js-cookie'
+
 
 import store from './store'
 
@@ -30,10 +32,47 @@ console.log(store.state.count) // -> 1*/
 /* eslint-disable no-new */
 
 
-
-
-
 router.beforeEach((to, from, next) => {
+    if(!store.getters.auth_token){
+        var tokenByCookie = Cookies.get('wpc_auth_token');
+        if(tokenByCookie){
+            store.dispatch('GetAuthInfo',tokenByCookie).then((res) => {
+                /*if(res.data.success){
+                    this.$router.push({ path: '/' }); //登录成功之后重定向到首页
+                }else{
+                    //console.log('submit login failure');
+                    //this.errormsg = res.data.errormsg;
+
+                    this.$message.error(res.data.error_msg); //登录失败提示错误
+                }*/
+            }).catch(err => {
+                //console.log('submit login error');
+                console.log(err);
+                //this.$message.error(err); //登录失败提示错误
+            });
+
+            /*this.dispatch('GetAuthInfo',tokenByCookie).then((res) => {
+                console.log(res);
+            }).catch(err => {
+                //console.log('submit login error');
+                console.log(err);
+                //this.$message.error(err); //登录失败提示错误
+            });*/
+
+            /*actions.GetAuthInfo({commit},tokenByCookie){
+
+            }*/
+
+
+
+            //Cookies.remove('wpc_auth_token');
+            //commit('setToken',tokenByCookie,true);
+            //return tokenByCookie;
+        }
+    }
+
+
+
     if (store.getters.auth_token) { // 判断是否有token
         if (to.path === '/login') {
             next({ path: '/' }); //登录页重定向到首页
