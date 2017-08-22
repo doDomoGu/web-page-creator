@@ -106,8 +106,6 @@ const actions = {
                     commit('setLoginState');
                     commit('setUserId',{user_id:res.data.user_id});
                     commit('setRoles',{roles:res.data.roles});
-
-
                     resolve(res);
                 })
                 .catch(error => {
@@ -160,6 +158,31 @@ const mutations = {
         state.roles = [];
         Cookies.remove('wpc_auth_token');
     },
+
+    GetAuthInfo222(state,token){
+        return new Promise((resolve, reject) => {
+            axios.get(
+                '/auths',
+                {
+                    params: {
+                        token: token
+                    }
+                }
+            )
+                .then((res) => {
+                    commit('setToken',{token:res.data.token});
+                    commit('setLoginState');
+                    commit('setUserId',{user_id:res.data.user_id});
+                    commit('setRoles',{roles:res.data.roles});
+
+
+                    resolve(res);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    }
 
 };
 
