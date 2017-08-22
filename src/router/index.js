@@ -15,13 +15,11 @@ Vue.use(Router);
 
 //constantRouterMap  基础路由 不需登录访问权限
 var constantRouterMap = [
-    {
+    /*{
         path: '/',
         component: Index,
-        name: '首页'/*,
-        redirect: '/dashboard',
-        children: [{ path: 'dashboard', component: dashboard }]*/
-    },
+        name: '首页'
+    },*/
     {
         path: '/login',
         component: Login,
@@ -50,6 +48,11 @@ var roleAllRouterMap = [
         path: '/logout',
         name: '登出'/*,
         component: Logout*/
+    },
+    {
+        path: '/',
+        component: Index,
+        name: '首页',
     }
 ];
 

@@ -1,160 +1,125 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-//import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import axios from './axios'
 import Cookies from 'js-cookie'
-
-
 import store from './store'
 
+
 Vue.use(ElementUI);
-/*Vue.use(Vuex);*/
 
-//Vue.prototype.$axios = axios
+Vue.config.productionTip = false;
 
-
-Vue.config.productionTip = false
-
-/*axios.interceptors.response.use((response) => {
-  const data = response.data
-  console.log(data);
-})*/
-
-/*
-store.commit('increment')
-
-console.log(store.state.count) // -> 1*/
-/* eslint-disable no-new */
-
-
+//登录验证
 router.beforeEach((to, from, next) => {
-    console.log(store.getters.auth_token);
-    if(!store.getters.auth_token){
-        var tokenByCookie = Cookies.get('wpc_auth_token');
-        console.log(tokenByCookie);
-        if(tokenByCookie){
-            store.dispatch('GetAuthInfo',tokenByCookie).then((res) => {
-                resolve(res);
-            }).catch(err => {
-                //console.log('submit login error');
-                console.log(err);
-                //this.$message.error(err); //登录失败提示错误
-            });
-
-            //Cookies.remove('wpc_auth_token');
-            //commit('setToken',tokenByCookie,true);
-            //return tokenByCookie;
-        }
-    }
     if (to.path === '/logout') {
-        store.dispatch('Logout').then(() => { // 生成可访问的路由表
+        store.dispatch('Logout').then(() => {
             next({path: '/'})
         })
     }
 
-console.log(store.getters.auth_token);
-    if (store.getters.auth_token) { // 判断是否有token
-        console.log('has auth token');
-
-        if (to.path === '/login') {
-            console.log('login');
-            next({ path: '/' }); //登录页重定向到首页
-        } else {
-            var roles = store.getters.auth_roles;
-
-            /*var matchFlag = false;
-
-
-            if(router.options.constantRoutes.indexOf(to.path) !== -1 ) { //不用登陆的页面
-                matchFlag = true;
-            }else if(router.options.roleAllRoutes.indexOf(to.path) !== -1 ){ //全体角色通用页面
-                matchFlag = true;
-            }else{
-                //根据角色不同 对不用的路由的访问权限
-                var routeMap = router.options.roleOneRouterMap;
-
-                for(var i in routeMap){
-                    if(!matchFlag){
-                        if(routeMap[i].path == to.path){
-                            var roleFlag = false;
-                            for(var j in roles){
-                                if(!roleFlag){
-                                    if(routeMap[i].roles.indexOf(roles[j]) !== -1){
-                                        roleFlag = true;
-                                    }
-                                }
-                            }
-                            if(roleFlag){
-                                matchFlag = true;
-                            }
+    //是否登录状态
+    if (!store.getters.auth_is_login) {
+        console.log('no auth token');
+        //读取cookie
+        var tokenByCookie = Cookies.get('wpc_auth_token');
+        if (tokenByCookie) {
+            //根据cookie token 获取用户信息
+           new Promise((resolve, reject) => {
+                axios.get(
+                    '/auths',
+                    {
+                        params: {
+                            token: tokenByCookie
                         }
                     }
-                }
-            }*/
+                )
+                    .then((res) => {
+                        store.dispatch('SetStore', res.data);
 
+                        store.dispatch('GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
+                            router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
+                        })
+                        console.log('a1111');
+                        console.log(store.getters.auth_is_login);
 
-            //if(matchFlag){
-                //加载角色对应的路由
-                store.dispatch('GenerateRoutes', { roles:roles,router:router }).then(() => { // 生成可访问的路由表
-                    router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
-                })
-                next();
-           /* }else{
-                console.log(404);
-                //不允许的路由操作  返回404
+                        resolve(res);
+                        console.log('a2222');
 
+                        if (store.getters.auth_is_login) {
 
-            }*/
+                            next();
 
-           /* if (store.getters.auth_roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-                store.dispatch('GetAuthInfo').then(res => { // 拉取info
-                    const roles = res.data.role;
-                    store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
-                        router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-                        next(to); // hack方法 确保addRoutes已完成
+                        }else {
+                            console.log('no auth token22222');
+
+                            if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
+                                next();
+                            } else {
+                                next('/login'); // 否则全部重定向到登录页
+                            }
+                        }
+
                     })
-                }).catch(err => {
-                    console.log(err);
-                });
-            } else {
-                next() //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入404页面
-            }*/
-        }
-    } else {
-        console.log('no auth token');
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
 
-        if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
-            next();
-        } else {
-            next('/login'); // 否则全部重定向到登录页
         }
     }
+
 });
+
+
+/*console.log(store.getters.auth_token);
+if(!store.getters.auth_token){
+    var tokenByCookie = Cookies.get('wpc_auth_token');
+    console.log('cookie')
+    console.log(tokenByCookie);
+    if(tokenByCookie){
+        store.dispatch('GetAuthInfo',tokenByCookie).then((res) => {
+            //resolve(res);
+            console.log('1111');
+            console.log(store.getters.auth_token);
+            next();
+        }).catch(err => {
+            //console.log('submit login error');
+            console.log(err);
+            //this.$message.error(err); //登录失败提示错误
+        });
+
+        //Cookies.remove('wpc_auth_token');
+        //commit('setToken',tokenByCookie,true);
+        //return tokenByCookie;
+    }
+}*/
+console.log('b222222');
+
 
 
 
 new Vue({
-  el: '#app',
-  router,
-  store,
-  //axios,
-  //template: '<App></App>',
-  //components: {App},
-  render: h => h(App)
-  /*,
-  created() {
-    this.checkLogin();
-  },
-  methods:{
-    checkLogin(){
-      console.log('check login');
-    }
-  }*/
+    el: '#app',
+    router,
+    store,
+    //axios,
+    //template: '<App></App>',
+    //components: {App},
+    render: h => h(App)
+    /*,
+    created() {
+      this.checkLogin();
+    },
+    methods:{
+      checkLogin(){
+        console.log('check login');
+      }
+    }*/
 })
 
 

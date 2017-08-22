@@ -88,8 +88,6 @@ const actions = {
 
 
         commit('setAddRoutes',routes);
-
-
     },
     GetAuthInfo({commit},token){
         return new Promise((resolve, reject) => {
@@ -112,6 +110,12 @@ const actions = {
                     reject(error);
                 });
         });
+    },
+    SetStore({commit},data){
+        commit('setToken',{token:data.token});
+        commit('setLoginState');
+        commit('setUserId',{user_id:data.user_id});
+        commit('setRoles',{roles:data.roles});
     }
 
 };
@@ -120,7 +124,8 @@ const getters = {
     auth_token: state => state.token,
     auth_roles: state => state.roles,
     auth_user_id: state => state.user_id,
-    auth_add_routes: state => state.add_routes
+    auth_add_routes: state => state.add_routes,
+    auth_is_login: state => state.is_login
 
     /*users_list: state => {
         if(state.usersData == ''){
