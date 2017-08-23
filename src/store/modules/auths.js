@@ -27,7 +27,7 @@ const actions = {
                 }
             )
             .then((res) => {
-                commit('setToken',{token:res.data.token});
+                commit('setToken',{token:res.data.token,updateCookie:true});
                 commit('setLoginState');
                 commit('setUserId',{user_id:res.data.user_id});
                 commit('setRoles',{roles:res.data.roles});
@@ -140,10 +140,10 @@ const getters = {
 };
 
 const mutations = {
-    setToken: (state, data, notUpdateToken) => {
+    setToken: (state, data) => {
         state.token = data.token;
-        if(!notUpdateToken) {
-            Cookies.set('wpc_auth_token', data.token, {expires: 1, path: ''});
+        if(data.updateCookie) {
+            Cookies.set('wpc_auth_token', data.token, {expires: 1, path: ''}); //expires 单位为天
         }
     },
     setLoginState: (state) => {

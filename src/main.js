@@ -21,13 +21,15 @@ router.beforeEach((to, from, next) => {
             next({path: '/'})
         })
     }
-
+    console.log('start beforeEach');
     //是否登录状态
     if (!store.getters.auth_is_login) {
-        console.log('no auth token');
+        console.log('not login');
         //读取cookie
         var tokenByCookie = Cookies.get('wpc_auth_token');
         if (tokenByCookie) {
+            console.log('has token in cookie');
+
             //根据cookie token 获取用户信息
            new Promise((resolve, reject) => {
                 axios.get(
@@ -38,37 +40,25 @@ router.beforeEach((to, from, next) => {
                         }
                     }
                 )
-                    .then((res) => {
-                        store.dispatch('SetStore', res.data);
+                .then((res) => {
+                    store.dispatch('SetStore', res.data);
 
-                        store.dispatch('GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
-                            router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
-                        })
-                        console.log('a1111');
-                        console.log(store.getters.auth_is_login);
-
-                        resolve(res);
-                        console.log('a2222');
-                        next('/');
-
-                        /*if (store.getters.auth_is_login) {
-
-                            next();
-
-                        }else {
-                            console.log('no auth token22222');
-
-                            if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
-                                next();
-                            } else {
-                                next('/login'); // 否则全部重定向到登录页
-                            }
-                        }*/
-
-                    })
-                    .catch(error => {
-                        reject(error);
+                    store.dispatch('GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
+                        router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
                     });
+                    //console.log('a1111');
+                    //console.log(store.getters.auth_is_login);
+                    setTimeout(function(){
+                        next(to.path);
+                    },2000);
+                    //next(to.path);
+                    resolve(res);
+
+                    //console.log('a2222');
+                })
+                .catch(error => {
+                    reject(error);
+                });
             });
 
         }else{
@@ -76,8 +66,10 @@ router.beforeEach((to, from, next) => {
             console.log('no token in cookie');
 
             if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
+                console.log('constant',to.path);
                 next();
             } else {
+                console.log('no constant',to.path);
                 next('/login'); // 否则全部重定向到登录页
             }
         }
@@ -125,10 +117,6 @@ if(!store.getters.auth_token){
         //return tokenByCookie;
     }
 }*/
-console.log('b222222');
-
-
-
 
 new Vue({
     el: '#app',

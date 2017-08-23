@@ -40,8 +40,10 @@
             onSubmit() {
                 this.$store.dispatch('Login', this.form).then((res) => {
                     if(res.data.success){
+                        console.log('aaa1111');
                         this.$store.dispatch('GenerateRoutes', {roles: this.$store.getters.auth_roles, router: this.$router}).then(() => { // 生成可访问的路由表
                             this.$router.addRoutes(this.$store.getters.auth_add_routes) // 动态添加可访问路由表
+                            console.log('aaa2222');
                             this.$router.push({ path: '/' }); //登录成功之后重定向到首页
                         })
 
