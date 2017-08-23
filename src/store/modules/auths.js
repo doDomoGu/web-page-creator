@@ -65,7 +65,24 @@ const actions = {
     },
     GenerateRoutes({commit}, data){
         var routes = [];
-        //通用角色路由
+
+        var roles = data.roles;
+
+        if(roles){
+            var routerMap = data.router.options.roleRouterMap;
+
+            for(var i in routerMap){
+                for(var j in roles){
+                    if(routerMap[i].roles == '*' || routerMap[i].roles.indexOf(roles[j]) !== -1){
+                        routes.push(routerMap[i]);
+                        //                  console.log(routeOne[i]);
+                    }
+                }
+            }
+        }
+
+
+        /*//通用角色路由
         var routeAll = data.router.options.roleAllRouterMap;
         for(var i in routeAll){
             routes.push(routeAll[i]);
@@ -81,9 +98,9 @@ const actions = {
   //                  console.log(routeOne[i]);
                 }
             }
-        }
+        }*/
 //console.log(data.router.options.router404)
-        //兜底 404页面
+        //404页面
         routes.push(
             data.router.options.router404
         );

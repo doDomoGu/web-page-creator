@@ -21,14 +21,14 @@ router.beforeEach((to, from, next) => {
             next({path: '/'})
         })
     }
-    console.log('start beforeEach');
+    //console.log('start beforeEach');
     //是否登录状态
     if (!store.getters.auth_is_login) {
-        console.log('not login');
+        //console.log('not login');
         //读取cookie
         var tokenByCookie = Cookies.get('wpc_auth_token');
         if (tokenByCookie) {
-            console.log('has token in cookie');
+            //console.log('has token in cookie');
 
             //根据cookie token 获取用户信息
            new Promise((resolve, reject) => {
@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
 
         }else{
             //不是登录状态  且在cookie 中也不存在 auto_token
-            console.log('no token in cookie');
+//            console.log('no token in cookie');
 
             if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
                 console.log('constant',to.path);

@@ -42,12 +42,12 @@ for(var i in constantRouterMap){
 }
 
 
-//roleAllRouteMap  所有登录后角色可以使用的路由
+/*//roleAllRouteMap  所有登录后角色可以使用的路由
 var roleAllRouterMap = [
     {
         path: '/logout',
-        name: '登出'/*,
-        component: Logout*/
+        name: '登出'/!*,
+        component: Logout*!/
     },
     {
         path: '/',
@@ -60,11 +60,22 @@ var roleAllRouterMap = [
 var roleAllRoutes = [];
 for(var i in roleAllRouterMap){
     roleAllRoutes.push(roleAllRouterMap[i].path);
-}
+}*/
 
 
-//roleOneRouteMap  根据roles属性值 区分哪个角色 可以使用
-var roleOneRouterMap = [
+//roleRouteMap  根据roles属性值 区分哪个角色 可以使用
+var roleRouterMap = [
+    {
+        path: '/logout',
+        name: '登出',
+        roles: '*'
+    },
+    {
+        path: '/',
+        name: '首页',
+        component: Index,
+        roles: '*'
+    },
     {
         path: '/user',
         name: '用户',
@@ -80,10 +91,10 @@ var roleOneRouterMap = [
 ];
 
 
-//roleOneRoutes  不同path对应的roles数组
-var roleOneRoutes = [];
-for(var i in roleOneRouterMap){
-    roleOneRoutes[roleOneRouterMap[i].path] = roleOneRouterMap[i].roles;
+//roleRoutes  不同path对应的roles数组
+var roleRoutes = [];
+for(var i in roleRouterMap){
+    roleRoutes[roleRouterMap[i].path] = roleRouterMap[i].roles;
 }
 
 var router404 = { path: '*', name: '404', component: NotFound404 }
@@ -93,12 +104,9 @@ export default new Router({
     mode : 'history',
     routes: constantRouterMap,
     constantRoutes : constantRoutes,
-    roleAllRouterMap : roleAllRouterMap,
-    roleAllRoutes : roleAllRoutes,
-    roleOneRouterMap : roleOneRouterMap,
-    roleOneRoutes : roleOneRoutes,
+    roleRouterMap : roleRouterMap,
+    roleRoutes : roleRoutes,
     router404: router404
-
 });
 
 /*export default new Router({
