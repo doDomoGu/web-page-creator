@@ -48,9 +48,7 @@ router.beforeEach((to, from, next) => {
                     });
                     //console.log('a1111');
                     //console.log(store.getters.auth_is_login);
-                    setTimeout(function(){
-                        next(to.path);
-                    },2000);
+                    next(to.path);
                     //next(to.path);
                     resolve(res);
 
