@@ -49,8 +49,9 @@ router.beforeEach((to, from, next) => {
 
                         resolve(res);
                         console.log('a2222');
+                        next('/');
 
-                        if (store.getters.auth_is_login) {
+                        /*if (store.getters.auth_is_login) {
 
                             next();
 
@@ -62,7 +63,7 @@ router.beforeEach((to, from, next) => {
                             } else {
                                 next('/login'); // 否则全部重定向到登录页
                             }
-                        }
+                        }*/
 
                     })
                     .catch(error => {
@@ -70,7 +71,33 @@ router.beforeEach((to, from, next) => {
                     });
             });
 
+        }else{
+            //不是登录状态  且在cookie 中也不存在 auto_token
+            console.log('no token in cookie');
+
+            if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
+                next();
+            } else {
+                next('/login'); // 否则全部重定向到登录页
+            }
         }
+    }else{
+        //是登录状态
+        // 加载路由
+        /*store.dispatch('GenerateRoutes', {roles: store.getters.auth_roles, router: router}).then(() => { // 生成可访问的路由表
+            router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
+        });*/
+
+
+        next();
+        /*console.log('no auth token');
+
+        if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
+            next();
+        } else {
+            next('/login'); // 否则全部重定向到登录页
+        }*/
+
     }
 
 });

@@ -32,6 +32,8 @@ const actions = {
                 commit('setUserId',{user_id:res.data.user_id});
                 commit('setRoles',{roles:res.data.roles});
 
+
+
                 /*Cookies.set('name', 'value', { expires: 7, path: '' });//7天过期
                 Cookies.set('name', { foo: 'bar' });//设置一个json
                 b、读取cookie
