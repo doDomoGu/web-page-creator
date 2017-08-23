@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Index from '../components/Index'
+import Index from '../views/Index'
 import About from '../components/About'
-import User from '../components/User'
-import Website from '../components/Website'
-import Login from '../components/Login'
+import Login from '../views/Login'
 //import Logout from '../components/Logout'
-import NotFound404 from '../components/NotFound404'
+import NotFound404 from '../views/NotFound404'
 
+import AdminRouterMap from './admin/index'
 
 Vue.use(Router);
 
@@ -76,7 +75,7 @@ var roleRouterMap = [
         component: Index,
         roles: '*'
     },
-    {
+    /*{
         path: '/user',
         name: '用户',
         component: User,
@@ -87,7 +86,7 @@ var roleRouterMap = [
         name: '网站',
         component: Website,
         roles: ['super_admin','website_admin']
-    }
+    }*/
 ];
 
 
@@ -96,6 +95,22 @@ var roleRoutes = [];
 for(var i in roleRouterMap){
     roleRoutes[roleRouterMap[i].path] = roleRouterMap[i].roles;
 }
+
+for(var i in AdminRouterMap){
+    AdminRouterMap[i].path = '/admin'+AdminRouterMap[i].path;
+
+
+    roleRouterMap.push(AdminRouterMap[i]);
+    roleRoutes[AdminRouterMap[i].path] = AdminRouterMap[i].roles;
+}
+
+
+
+
+
+
+
+
 
 var router404 = { path: '*', name: '404', component: NotFound404 }
 
