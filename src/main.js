@@ -64,10 +64,10 @@ router.beforeEach((to, from, next) => {
 //            console.log('no token in cookie');
 
             if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
-                console.log('constant',to.path);
+                //console.log('constant',to.path);
                 next();
             } else {
-                console.log('no constant',to.path);
+                //console.log('no constant',to.path);
                 next('/login'); // 否则全部重定向到登录页
             }
         }
