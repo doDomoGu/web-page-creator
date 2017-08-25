@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
         //console.log('not login');
         //读取cookie
         var tokenByCookie = Cookies.get('wpc_auth_token');
-        if (tokenByCookie) {
+        if (typeof(tokenByCookie)=='string') {
             //console.log('has token in cookie');
 
             //根据cookie token 获取用户信息
@@ -41,13 +41,19 @@ router.beforeEach((to, from, next) => {
                     }
                 )
                 .then((res) => {
-                    store.dispatch('SetStore', res.data);
+                    if(res.data && res.data.success){
+                        store.dispatch('SetStore', res.data);
 
-                    store.dispatch('GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
-                        router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
-                    });
-                    //console.log('a1111');
-                    //console.log(store.getters.auth_is_login);
+                        store.dispatch('GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
+                            router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
+                        });
+                        //console.log('a1111');
+                        //console.log(store.getters.auth_is_login);
+
+                    }else{
+                        //提交的token 错误
+                        Cookies.remove('wpc_auth_token');
+                    }
                     next(to.path);
                     //next(to.path);
                     resolve(res);
@@ -67,6 +73,7 @@ router.beforeEach((to, from, next) => {
                 //console.log('constant',to.path);
                 next();
             } else {
+
                 //console.log('no constant',to.path);
                 next('/login'); // 否则全部重定向到登录页
             }

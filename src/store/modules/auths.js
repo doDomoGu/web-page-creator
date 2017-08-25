@@ -27,10 +27,13 @@ const actions = {
                 }
             )
             .then((res) => {
-                commit('setToken',{token:res.data.token,updateCookie:true});
-                commit('setLoginState');
-                commit('setUserId',{user_id:res.data.user_id});
-                commit('setRoles',{roles:res.data.roles});
+                if(res.data && res.data.success){
+                    commit('setToken',{token:res.data.token,updateCookie:true});
+                    commit('setLoginState');
+                    commit('setUserId',{user_id:res.data.user_id});
+                    commit('setRoles',{roles:res.data.roles});
+                }
+
 
 
 
