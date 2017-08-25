@@ -3,7 +3,7 @@ import qs from 'qs'
 
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.baseURL = 'http://api.web-page.com';
+axios.defaults.baseURL = process.env.AXIOS_BASEURL;
 
 //POST传参序列化
 axios.interceptors.request.use((config) => {
