@@ -1,8 +1,8 @@
 <template>
     <div class="hello">
-        <h1>{{ msg }}</h1>
-        <h2>Essential Links2</h2>
-        <router-link to="/about">关于</router-link>
+        <span>首页</span>
+        <!--<h2>Essential Links2</h2>
+        <router-link to="/about">关于</router-link>-->
     </div>
 </template>
 

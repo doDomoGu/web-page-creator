@@ -33,16 +33,16 @@ export default {
             return  v==1?'正常':'禁用';
         },
         getData: function () {
-            this.loading = true;
             var that = this;
+            that.loading = true;
             //axios.get('http://api.web-page.com/users')
             axios({
                 methos:'get',
                 url:'http://api.web-page2.com/users'
             })
                 .then((res) => {
-                    this.tableData = res.data;
-                    this.loading = false;
+                    that.tableData = res.data;
+                    that.loading = false;
                 })
                 .catch(function(err){
                     console.log(err);
@@ -55,27 +55,12 @@ export default {
                    ])*/
 
     },
-    computed: {
-        count111() {
-              /*console.log(this.$store);
-              console.log(this.$store.state.users);
-              console.log(this.$store.state.users.);
-              console.log(this.$store.getters.doneTodos);*/
-
-              //console.log(this.$store.getters.doneTodosCount);
-              console.log(this.$store.getters.getCount);
-
-
-              //this.$store.users.commit('increment',(this.$store.state.users));
-              return this.$store.state.users.users_list;
-        }
-    },
     data() {
         /*return {
             tableData: this.getData()
         }*/
       return {
-            tableData: this.$store.state.users.usersData  //this.userData
+            tableData: this.$store.state.users.list  //this.userData
       }
     }
 }

@@ -1,13 +1,8 @@
 import * as types from './../types.js';
 
 const state = {
-    count: 10,
-    usersData:[
-        { id: 1, name: '张三', password: '123123', sex: 2, status: 1 },
-        { id: 2, name: '夏侯惇', password: '123123a', sex: 1, status: 0 },
-        { id: 3, name: '张晓松', password: '123123b', sex: 0, status: 1 },
-        { id: 4, name: '赵菲菲', password: '123123c', sex: 1, status: 0 }
-    ]
+    count: 0,
+    list:[]
 };
 
 const actions = {
@@ -29,30 +24,28 @@ const actions = {
 };
 
 const getters = {
-    users_list: state => {
-        if(state.usersData == ''){
-            return localStorage.getItem('usersData');
+    /*users_list: state => {
+        if(state.list == ''){
+            return localStorage.getItem('user_list');
         }else{
-            return state.usersData;
+            return state.list;
         }
-    },
+    },*/
+    list: state => state.list,
     getCount : state => state.count
 };
 
 const mutations = {
     [types.ADD](state, res) {
-        state.usersData.push(res);
+        state.list.push(res);
     },
     [types.DELETE](state, res) {
 
-        state.usersData.push(res);
+        state.list.push(res);
     },
     [types.UPDATE]( state, res) {
-        state.usersData.push(res);
-    }/*,
-    increment (state, obj) {
-        state.count+= obj.count
-    }*/
+        state.list.push(res);
+    }
 };
 
 export default {

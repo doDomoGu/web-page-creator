@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import Sidebar from './components/layouts/sidebar.vue'
+    import Sidebar from './views/layouts/sidebar.vue'
     import { mapState,mapMutations} from 'vuex'
 
 

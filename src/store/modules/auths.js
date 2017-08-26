@@ -148,15 +148,6 @@ const getters = {
     auth_user_id: state => state.user_id,
     auth_add_routes: state => state.add_routes,
     auth_is_login: state => state.is_login
-
-    /*users_list: state => {
-        if(state.usersData == ''){
-            return localStorage.getItem('usersData');
-        }else{
-            return state.usersData;
-        }
-    },
-    getCount : state => state.count*/
 };
 
 const mutations = {
