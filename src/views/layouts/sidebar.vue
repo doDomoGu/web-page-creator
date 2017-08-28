@@ -39,13 +39,13 @@
   export default {
     methods: {
       handleOpen(key, keyPath) {
-        console.log('open',key, keyPath);
+        //console.log('open',key, keyPath);
       },
       handleClose(key, keyPath) {
-        console.log('close',key, keyPath);
+        //console.log('close',key, keyPath);
       },
       handleSelect(key, keyPath) {
-        console.log('select',key, keyPath);
+        //console.log('select',key, keyPath);
       }
     }
   }

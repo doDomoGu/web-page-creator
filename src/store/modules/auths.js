@@ -13,7 +13,23 @@ const state = {
 
 const actions = {
     Logout({ commit }){
-        commit('cleanLoginState');
+        return new Promise((resolve, reject) => {
+            axios.post(
+                '/auths/delete',
+                {
+                    token: state.token
+                }
+            )
+                .then((res) => {
+                    if(res.data && res.data.success) {
+                        commit('cleanLoginState');
+                    }
+                    resolve(res);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
     },
     Login({ commit }, formData) {
         const username = formData.username.trim();
@@ -170,36 +186,13 @@ const mutations = {
         state.add_routes = data;
     },
     cleanLoginState: (state) => {
-        state.is_login = false;
-        state.user_id = 0;
-        state.token = '';
-        state.roles = [];
-        Cookies.remove('wpc_auth_token');
-    },
 
-    GetAuthInfo222(state,token){
-        return new Promise((resolve, reject) => {
-            axios.get(
-                '/auths',
-                {
-                    params: {
-                        token: token
-                    }
-                }
-            )
-                .then((res) => {
-                    commit('setToken',{token:res.data.token});
-                    commit('setLoginState');
-                    commit('setUserId',{user_id:res.data.user_id});
-                    commit('setRoles',{roles:res.data.roles});
+                state.is_login = false;
+                state.user_id = 0;
+                state.token = '';
+                state.roles = [];
+                Cookies.remove('wpc_auth_token');
 
-
-                    resolve(res);
-                })
-                .catch(error => {
-                    reject(error);
-                });
-        });
     }
 
 };

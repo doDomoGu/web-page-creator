@@ -85,7 +85,6 @@ router.beforeEach((to, from, next) => {
             router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
         });*/
 
-
         next();
         /*console.log('no auth token');
 
