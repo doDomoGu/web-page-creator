@@ -26,17 +26,16 @@ router.beforeEach((to, from, next) => {
     if (!store.getters.auth_is_login) {
         //console.log('not login');
         //读取cookie
-        var tokenByCookie = Cookies.get('wpc_auth_token');
-        if (typeof(tokenByCookie)=='string') {
-            //console.log('has token in cookie');
+        var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;//Cookies.get('wpc_auth_token');
+        if (typeof(tokenInLocalStorge)=='string') {
 
             //根据cookie token 获取用户信息
-           new Promise((resolve, reject) => {
+           return new Promise((resolve, reject) => {
                 axios.get(
                     '/auths',
                     {
                         params: {
-                            token: tokenByCookie
+                            token: tokenInLocalStorge
                         }
                     }
                 )
@@ -49,13 +48,16 @@ router.beforeEach((to, from, next) => {
                         });
                         //console.log('a1111');
                         //console.log(store.getters.auth_is_login);
-
+                        next(to.path);
                     }else{
                         //提交的token 错误
-                        Cookies.remove('wpc_auth_token');
+                        //Cookies.set('wpc_auth_token','',{expires:-1,path:'/'}));
+
+                        store.commit('cleanLoginState');
+
+                        next('/login');
                     }
-                    next(to.path);
-                    //next(to.path);
+
                     resolve(res);
 
                     //console.log('a2222');

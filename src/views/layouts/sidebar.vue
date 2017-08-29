@@ -9,7 +9,7 @@
           <i class="el-icon-caret-right"></i>后台管理
         </template>
         <el-menu-item index="/admin/user">用户</el-menu-item>
-        <el-menu-item index="/1-2">选项2</el-menu-item>
+        <el-menu-item index="/admin/usergroup">用户组</el-menu-item>
       </el-submenu>
       <el-menu-item index="/logout"><i class="el-icon-caret-right"></i>退出</el-menu-item>
 

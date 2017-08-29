@@ -44,7 +44,7 @@ const actions = {
             )
             .then((res) => {
                 if(res.data && res.data.success){
-                    commit('setToken',{token:res.data.token,updateCookie:true});
+                    commit('setToken',{token:res.data.token,updateToken:true});
                     commit('setLoginState');
                     commit('setUserId',{user_id:res.data.user_id});
                     commit('setRoles',{roles:res.data.roles});
@@ -169,8 +169,9 @@ const getters = {
 const mutations = {
     setToken: (state, data) => {
         state.token = data.token;
-        if(data.updateCookie) {
-            Cookies.set('wpc_auth_token', data.token, {expires: 1, path: ''}); //expires 单位为天
+        if(data.updateToken) {
+            localStorage.__WPC_AUTH_TOKEN__ = data.token;
+            //Cookies.set('wpc_auth_token', data.token, {expires: 1, path: '/'}); //expires 单位为天
         }
     },
     setLoginState: (state) => {
@@ -186,12 +187,12 @@ const mutations = {
         state.add_routes = data;
     },
     cleanLoginState: (state) => {
-
-                state.is_login = false;
-                state.user_id = 0;
-                state.token = '';
-                state.roles = [];
-                Cookies.remove('wpc_auth_token');
+        state.is_login = false;
+        state.user_id = 0;
+        state.token = '';
+        state.roles = [];
+        localStorage.removeItem('__WPC_AUTH_TOKEN__');
+                //Cookies.remove('wpc_auth_token');
 
     }
 
