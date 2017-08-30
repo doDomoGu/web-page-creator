@@ -92,7 +92,7 @@ const actions = {
 
             for(var i in routerMap){
                 for(var j in roles){
-                    if(routerMap[i].roles == '*' || routerMap[i].roles.indexOf(roles[j]) !== -1){
+                    if(roles[j] == 'super_admin' || routerMap[i].roles == '*' || routerMap[i].roles.indexOf(roles[j]) !== -1){
                         routes.push(routerMap[i]);
                         //                  console.log(routeOne[i]);
                     }
