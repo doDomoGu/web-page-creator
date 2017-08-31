@@ -72,7 +72,7 @@ export default {
     },
     created(){
         this.loading = false;
-        this.getData();
+        this.getData({name:'name'});
     },
     methods:{
         onSearch:function(){
@@ -90,28 +90,24 @@ export default {
         operationFormat:function(r, c, v) {
             return  '---';
         },
-        getData: function () {
+        getData: function (params) {
             var that = this;
             that.loading = true;
-            //axios.get('http://api.web-page.com/users')
             axios({
                 methos:'get',
-                url:'/users'
+                url:'/users',
+                params:params
             })
-                .then((res) => {
-                    that.tableData = res.data;
-                    that.loading = false;
-                })
-                .catch(function(err){
-                    console.log(err);
-                    that.tableData = [];
-                    that.loading = false;
-                })
+            .then((res) => {
+                that.tableData = res.data;
+                that.loading = false;
+            })
+            .catch(function(err){
+                console.log(err);
+                that.tableData = [];
+                that.loading = false;
+            })
         }
-        /*mapMutations([
-            'LIST'=>(this.$store)
-                   ])*/
-
     },
     computed: {
         count111() {
