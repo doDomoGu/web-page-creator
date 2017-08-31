@@ -72,11 +72,15 @@ export default {
     },
     created(){
         this.loading = false;
-        this.getData({name:'name'});
+        this.getData({});
     },
     methods:{
         onSearch:function(){
-            console.log('search');
+            this.getData(this.searchForm);
+            //console.log(this.searchForm);
+
+
+            //console.log('search');
         },
         sexFormat:function(r, c, v) {
             return  v==1?'男':(v==2?'女':'N/A');
