@@ -40,6 +40,7 @@
             <el-table-column prop="name" label="名称" width="180"></el-table-column>
             <el-table-column prop="mobile" label="手机" width="180"></el-table-column>
             <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+            <el-table-column prop="usergroups" label="用户组" width="180"></el-table-column>
             <el-table-column prop="status" :formatter="statusFormat" label="状态"></el-table-column>
             <el-table-column prop="verify" :formatter="verifyFormat" label="审核"></el-table-column>
             <el-table-column prop="operation" :formatter="operationFormat" label="操作"></el-table-column>
@@ -67,7 +68,7 @@ export default {
                 status:'',
                 verify:''
             },
-            tableData: this.$store.state.users.list
+            tableData: []//this.$store.state.users.list
         }
     },
     created(){
@@ -103,8 +104,27 @@ export default {
                 params:params
             })
             .then((res) => {
-                that.tableData = res.data;
-                that.loading = false;
+                var UserRes = res.data;
+                axios({
+                    methos:'get',
+                    url:'/usergroups'
+                })
+                .then((res) => {
+                    for(var i in UserRes){
+                        UserRes[i].usergroups = 'sss';
+                    }
+                    that.tableData = UserRes;
+                    that.loading = false;
+                })
+                .catch(function(err){
+                    console.log(err);
+                    that.tableData = [];
+                    that.loading = false;
+                })
+
+
+//                that.tableData = res.data;
+//                that.loading = false;
             })
             .catch(function(err){
                 console.log(err);
