@@ -40,7 +40,7 @@
             <el-table-column prop="name" label="名称" width="180"></el-table-column>
             <el-table-column prop="mobile" label="手机" width="180"></el-table-column>
             <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-            <el-table-column prop="usergroups" label="用户组" width="180"></el-table-column>
+            <el-table-column prop="usergroups" label="所属用户组" width="180"></el-table-column>
             <el-table-column prop="status" :formatter="statusFormat" label="状态"></el-table-column>
             <el-table-column prop="verify" :formatter="verifyFormat" label="审核"></el-table-column>
             <el-table-column prop="operation" :formatter="operationFormat" label="操作"></el-table-column>
@@ -99,19 +99,26 @@ export default {
             var that = this;
             that.loading = true;
             axios({
-                methos:'get',
+                methods:'get',
                 url:'/users',
                 params:params
             })
             .then((res) => {
                 var UserRes = res.data;
+                var userids = [];
+                for(var i in UserRes){
+                    userids.push(UserRes[i].id);
+                }
                 axios({
-                    methos:'get',
-                    url:'/usergroups'
+                    methods:'get',
+                    url:'/users/usergroups',
+                    params:{
+                        userids:userids.join(',')
+                    }
                 })
                 .then((res) => {
                     for(var i in UserRes){
-                        UserRes[i].usergroups = 'sss';
+                        UserRes[i].usergroups = res.data.data[UserRes[i].id].join(',');
                     }
                     that.tableData = UserRes;
                     that.loading = false;
