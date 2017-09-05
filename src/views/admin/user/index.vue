@@ -7,16 +7,16 @@
             <el-form-item label="手机">
                 <el-input v-model="searchForm.mobile" placeholder="手机"></el-input>
             </el-form-item>
-            <el-form-item label="状态">
+            <!--<el-form-item label="状态">
                 <el-select v-model="searchForm.status" placeholder="状态">
-                    <el-option label="--" value=""></el-option>
+                    <el-option label="&#45;&#45;" value=""></el-option>
                     <el-option label="正常" value="1"></el-option>
                     <el-option label="禁用" value="0"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="审核状态">
                 <el-select v-model="searchForm.verify" placeholder="审核状态">
-                    <el-option label="--" value=""></el-option>
+                    <el-option label="&#45;&#45;" value=""></el-option>
                     <el-option label="审核通过" value="1"></el-option>
                     <el-option label="待审核" value="0"></el-option>
                     <el-option label="审核不通过" value="2"></el-option>
@@ -27,7 +27,7 @@
             </el-form-item>
             <el-form-item label="邮箱">
                 <el-input v-model="searchForm.email" placeholder="邮箱"></el-input>
-            </el-form-item>
+            </el-form-item>-->
             <el-form-item>
                 <el-button type="primary" @click="onSearch">查询</el-button>
             </el-form-item>
@@ -45,7 +45,7 @@
             <el-table-column prop="verify" :formatter="verifyFormat" label="审核"></el-table-column>
             <el-table-column prop="operation" :formatter="operationFormat" label="操作"></el-table-column>
         </el-table>
-        <!--<el-button id="get-data-btn" class="el-button&#45;&#45;primary" @click="getData()" >获取</el-button>-->
+        <el-button id="get-data-btn" class="el-button--primary" @click="refresh" >刷新</el-button>
     </el-row>
 </template>
 
@@ -77,6 +77,8 @@ export default {
     },
     methods:{
         onSearch:function(){
+            this.$store.dispatch('UserListSearch', this.searchForm.attributes);
+console.log('search');
             this.getData(this.searchForm);
             //console.log(this.searchForm);
 
@@ -105,54 +107,46 @@ export default {
             })
             .then((res) => {
                 var UserRes = res.data;
-                var userids = [];
-                for(var i in UserRes){
-                    userids.push(UserRes[i].id);
-                }
-                axios({
-                    methods:'get',
-                    url:'/users/usergroups',
-                    params:{
-                        userids:userids.join(',')
-                    }
-                })
-                .then((res) => {
+                if(UserRes.length>0){
+                    var userids = [];
                     for(var i in UserRes){
-                        UserRes[i].usergroups = res.data.data[UserRes[i].id].join(',');
+                        userids.push(UserRes[i].id);
                     }
+                    axios({
+                        methods:'get',
+                        url:'/users/usergroups',
+                        params:{
+                            userids:userids.join(',')
+                        }
+                    })
+                    .then((res) => {
+                        for(var i in UserRes){
+                            UserRes[i].usergroups = res.data.data[UserRes[i].id].join(',');
+                        }
+                        that.tableData = UserRes;
+                        that.loading = false;
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                        that.tableData = [];
+                        that.loading = false;
+                    })
+                }else{
                     that.tableData = UserRes;
                     that.loading = false;
-                })
-                .catch(function(err){
-                    console.log(err);
-                    that.tableData = [];
-                    that.loading = false;
-                })
-
-
-//                that.tableData = res.data;
-//                that.loading = false;
+                }
             })
             .catch(function(err){
                 console.log(err);
                 that.tableData = [];
                 that.loading = false;
             })
-        }
-    },
-    computed: {
-        count111() {
-              /*console.log(this.$store);
-              console.log(this.$store.state.users);
-              console.log(this.$store.state.users.);
-              console.log(this.$store.getters.doneTodos);*/
-
-              //console.log(this.$store.getters.doneTodosCount);
-              console.log(this.$store.getters.getCount);
-
-
-              //this.$store.users.commit('increment',(this.$store.state.users));
-              return this.$store.state.users.users_list;
+        },
+        refresh: function(){
+            //this.loading = true;
+            console.log('research');
+            console.log(this.$store.getters.user_list);
+            //this.getData(this.$store.getters.user_list);
         }
     }
 }
