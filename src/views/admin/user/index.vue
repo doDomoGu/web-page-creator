@@ -31,8 +31,30 @@
             <el-form-item>
                 <el-button type="primary" @click="onSearch">查询</el-button>
                 <el-button type="info" @click="onReset">重置</el-button>
+                <el-button type="success" @click="showAddDialog">添加用户</el-button>
             </el-form-item>
         </el-form>
+
+        <el-dialog title="添加用户" :visible.sync="addDialogVisible">
+            <el-form :model="addForm" label-width="120px">
+                <el-form-item label="用户名">
+                    <el-input v-model="addForm.username" placeholder="用户名"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model="addForm.password" placeholder="密码"></el-input>
+                </el-form-item>
+                <el-form-item label="名称">
+                    <el-input v-model="addForm.name" placeholder="名称"></el-input>
+                </el-form-item>
+                <el-form-item label="手机">
+                    <el-input v-model="addForm.mobile" placeholder="手机"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="closeAddDialog">取 消</el-button>
+                <el-button type="primary" @click="onAddSubmit">确 定</el-button>
+            </span>
+        </el-dialog>
 
 
         <el-table id="user-table" v-loading="loading" element-loading-text="拼命加载中" :data="tableData" stripe style="width:100%">
@@ -58,18 +80,30 @@ export default {
     name: 'user_index',
     data() {
         return {
+            addDialogVisible:false,
             searchForm: {},// this.$store.getters['search/users'],
-            tableData: []//this.$store.state.users.list
+            tableData: [],//this.$store.state.users.list
+            addForm: {},
         }
     },
     created(){
         this.loading = true;
-        //读取store
+
+        //读取store中搜索条件
         var s = this.$store.getters['search/users'];
         for(var i in s){
             //对searchForm字段初始化
-            this.searchForm[i] = s[i];
+            this.$set(this.searchForm,i,s[i]);
         }
+
+        //读取store中users模型
+        var m = this.$store.getters['users/attributes'];
+        for(var j in m){
+            //对addForm字段初始化
+            this.$set(this.addForm,j,m[j]);
+        }
+
+        //根据搜索条件查询列表数据
         this.getData(this.searchForm);
     },
     methods:{
@@ -93,13 +127,45 @@ export default {
             this.loading = true;
             //重置搜索条件
             this.$store.dispatch('search/ResetUsers');
-
+            //重新获取初始条件
             var s = this.$store.getters['search/users'];
             for(var i in s){
                 //对searchForm字段初始化
-                this.searchForm[i] = s[i];
+                this.$set(this.searchForm,i,s[i])
             }
+
             this.getData(this.searchForm);
+        },
+        showAddDialog: function(){
+            this.addDialogVisible = true;
+        },
+        closeAddDialog: function(){
+            var m = this.$store.getters['users/attributes'];
+            for(var j in m){
+                //对addForm字段初始化
+                this.$set(this.addForm,j,m[j])
+            }
+            this.addDialogVisible = false;
+        },
+        onAddSubmit: function(){
+            axios.post(
+                '/users',
+                this.addForm
+            )
+            .then((res) => {
+                if(res && res.data && res.data.id>0){
+                    this.closeAddDialog();
+                    this.$message({
+                        message: '添加成功！',
+                        type: 'success'
+                    });
+                    this.onRefresh();
+                }
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+
         },
         sexFormat:function(r, c, v) {
             return  v==1?'男':(v==2?'女':'N/A');
@@ -137,7 +203,7 @@ export default {
                     })
                     .then((res) => {
                         for(var i in UserRes){
-                            UserRes[i].usergroups = res.data.data[UserRes[i].id].join(',');
+                            UserRes[i].usergroups = res.data.data[UserRes[i].id]?res.data.data[UserRes[i].id].join(','):'';
                         }
                         that.tableData = UserRes;
                         that.loading = false;
