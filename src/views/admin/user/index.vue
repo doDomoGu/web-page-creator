@@ -66,11 +66,11 @@ export default {
     },
     created(){
         this.loading = false;
-        this.getData({});
         var s = this.$store.getters['search/users'];
         for(var i in s){
             this.searchForm[i] = s[i];
         }
+        this.getData(this.searchForm);
     },
     methods:{
         onSearch:function(){
