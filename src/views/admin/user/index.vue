@@ -56,44 +56,32 @@ import axios from '../../../axios'
 export default {
     name: 'user_index',
     data() {
-        /*return {
-            tableData: this.getData()
-        }*/
         return {
             searchForm: {},// this.$store.getters['search/users'],
             tableData: []//this.$store.state.users.list
         }
     },
     created(){
-        this.loading = false;
+        this.loading = true;
+        //读取store
         var s = this.$store.getters['search/users'];
         for(var i in s){
+            //对searchForm字段初始化
             this.searchForm[i] = s[i];
         }
         this.getData(this.searchForm);
     },
     methods:{
         onSearch:function(){
-            //var users_search = this.$store.state.search.users;
-/*
-            var users_search = this.$store.getters['search/users'];
-            console.log(users_search.username);
-            console.log(.username);*/
-
-
+            this.loading = true;
+            //保存搜索条件到store
             var s = {};
             for(var i in this.searchForm){
                 s[i] = this.searchForm[i];
             }
             this.$store.dispatch('search/UpdateUsers', s);
 
-            console.log('search');
-
             this.getData(s);
-            //console.log(this.searchForm);
-
-
-            //console.log('search');
         },
         sexFormat:function(r, c, v) {
             return  v==1?'男':(v==2?'女':'N/A');
@@ -153,12 +141,8 @@ export default {
             })
         },
         onRefresh: function(){
-
-            //console.log('research');
-            //console.log(this.$store.getters['search/users'].username);
-
-
             this.loading = true;
+            //读取store里的搜索条件
             this.getData(this.$store.getters['search/users']);
         }
     }
