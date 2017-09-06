@@ -45,7 +45,7 @@
             <el-table-column prop="verify" :formatter="verifyFormat" label="审核"></el-table-column>
             <el-table-column prop="operation" :formatter="operationFormat" label="操作"></el-table-column>
         </el-table>
-        <el-button id="get-data-btn" class="el-button--primary" @click="refresh" >刷新</el-button>
+        <el-button id="get-data-btn" class="el-button--primary" @click="onRefresh" >刷新</el-button>
     </el-row>
 </template>
 
@@ -60,26 +60,36 @@ export default {
             tableData: this.getData()
         }*/
         return {
-            searchForm: {
-                username: '',
-                name: '',
-                mobile:'',
-                email:'',
-                status:'',
-                verify:''
-            },
+            searchForm: {},// this.$store.getters['search/users'],
             tableData: []//this.$store.state.users.list
         }
     },
     created(){
         this.loading = false;
         this.getData({});
+        var s = this.$store.getters['search/users'];
+        for(var i in s){
+            this.searchForm[i] = s[i];
+        }
     },
     methods:{
         onSearch:function(){
-            this.$store.dispatch('UserListSearch', this.searchForm.attributes);
-console.log('search');
-            this.getData(this.searchForm);
+            //var users_search = this.$store.state.search.users;
+/*
+            var users_search = this.$store.getters['search/users'];
+            console.log(users_search.username);
+            console.log(.username);*/
+
+
+            var s = {};
+            for(var i in this.searchForm){
+                s[i] = this.searchForm[i];
+            }
+            this.$store.dispatch('search/UpdateUsers', s);
+
+            console.log('search');
+
+            this.getData(s);
             //console.log(this.searchForm);
 
 
@@ -142,11 +152,14 @@ console.log('search');
                 that.loading = false;
             })
         },
-        refresh: function(){
-            //this.loading = true;
-            console.log('research');
-            console.log(this.$store.getters.user_list);
-            //this.getData(this.$store.getters.user_list);
+        onRefresh: function(){
+
+            //console.log('research');
+            //console.log(this.$store.getters['search/users'].username);
+
+
+            this.loading = true;
+            this.getData(this.$store.getters['search/users']);
         }
     }
 }
