@@ -1,19 +1,26 @@
 const state = {
-    user_list: {}
-}
+    users: {
+        username: '',
+        name: '',
+        mobile:'',
+        email:'',
+        status:'',
+        verify:''
+    }
+};
 const actions = {
-    UserListSearch({ commit }, formData) {
-        commit('setUserList',formData);
+    UpdateUsers({ commit }, formData) {
+        commit('update_users',formData);
     }
 };
 
 const getters = {
-    user_list: state => state.user_list
+    users: state => state.users
 };
 
 const mutations = {
-    setUserList: (state, data) => {
-        state.user_list = data;
+    update_users: (state, data) => {
+        state.users = data;
     }/*,
 
     setToken333: (state, data) => {
@@ -27,6 +34,7 @@ const mutations = {
 };
 
 export default {
+    namespaced:true,
     state,
     actions,
     getters,
