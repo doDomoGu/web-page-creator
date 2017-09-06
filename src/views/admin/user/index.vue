@@ -30,6 +30,7 @@
             </el-form-item>-->
             <el-form-item>
                 <el-button type="primary" @click="onSearch">查询</el-button>
+                <el-button type="info" @click="onReset">重置</el-button>
             </el-form-item>
         </el-form>
 
@@ -82,6 +83,23 @@ export default {
             this.$store.dispatch('search/UpdateUsers', s);
 
             this.getData(s);
+        },
+        onRefresh: function(){
+            this.loading = true;
+            //读取store里的搜索条件
+            this.getData(this.$store.getters['search/users']);
+        },
+        onReset: function(){
+            this.loading = true;
+            //重置搜索条件
+            this.$store.dispatch('search/ResetUsers');
+
+            var s = this.$store.getters['search/users'];
+            for(var i in s){
+                //对searchForm字段初始化
+                this.searchForm[i] = s[i];
+            }
+            this.getData(this.searchForm);
         },
         sexFormat:function(r, c, v) {
             return  v==1?'男':(v==2?'女':'N/A');
@@ -139,11 +157,6 @@ export default {
                 that.tableData = [];
                 that.loading = false;
             })
-        },
-        onRefresh: function(){
-            this.loading = true;
-            //读取store里的搜索条件
-            this.getData(this.$store.getters['search/users']);
         }
     }
 }
