@@ -34,19 +34,8 @@ const mutations = {
         state.users = data;
     },
     reset_users: state => {
-        state.users = state.default_users
+        state.users = state.default_users;
     }
-
-    /*,
-
-    setToken333: (state, data) => {
-        state.token = data.token;
-        if(data.updateToken) {
-            localStorage.__WPC_AUTH_TOKEN__ = data.token;
-            //Cookies.set('wpc_auth_token', data.token, {expires: 1, path: '/'}); //expires 单位为天
-        }
-    }*/
-
 };
 
 export default {

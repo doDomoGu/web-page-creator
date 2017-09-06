@@ -2,6 +2,16 @@ import * as types from './../types.js';
 
 const state = {
     count: 0,
+    attributes:{
+        id: 0,
+        username: "",
+        password: "",
+        name:"",
+        mobile: "",
+        email: "",
+        status: 0,
+        verify: 0
+    },
     list:[]
 };
 
@@ -31,6 +41,7 @@ const getters = {
             return state.list;
         }
     },*/
+    attributes:state => state.attributes,
     list: state => state.list,
     getCount : state => state.count
 };
@@ -49,6 +60,7 @@ const mutations = {
 };
 
 export default {
+    namespaced:true,
     state,
     actions,
     getters,
