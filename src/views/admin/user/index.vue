@@ -49,6 +49,22 @@
                 <el-form-item label="手机">
                     <el-input v-model="addForm.mobile" placeholder="手机"></el-input>
                 </el-form-item>
+                <el-form-item label="邮箱">
+                    <el-input v-model="addForm.email" placeholder="邮箱"></el-input>
+                </el-form-item>
+                <el-form-item label="状态">
+                    <el-select v-model="addForm.status" placeholder="状态">
+                        <el-option label="正常" value="1"></el-option>
+                        <el-option label="禁用" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="审核状态">
+                    <el-select v-model="addForm.verify" placeholder="审核状态">
+                        <el-option label="审核通过" value="1"></el-option>
+                        <el-option label="未审核" value="0"></el-option>
+                        <el-option label="审核失败" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="closeAddDialog">取 消</el-button>

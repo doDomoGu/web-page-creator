@@ -9,8 +9,8 @@ const state = {
         name:"",
         mobile: "",
         email: "",
-        status: 0,
-        verify: 0
+        status: "1",
+        verify: "1"
     },
     list:[]
 };
