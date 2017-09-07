@@ -85,8 +85,8 @@
             <el-table-column prop="operation" :formatter="operationFormat" label="操作"></el-table-column>
         </el-table>
 
-            <el-pagination class="pager" layout="prev, pager, next, total" :total="total">
-            </el-pagination>
+        <el-pagination class="pager" layout="prev, pager, next, total" v-show="tableData.length>0" :page-size="pageSize" :total="total" @current-change="onPageChange" :current-page="page">
+        </el-pagination>
         <el-button id="get-data-btn" class="el-button--primary" @click="onRefresh" >刷新</el-button>
     </el-row>
 </template>
@@ -158,6 +158,11 @@ export default {
             }
             this.page = 1;
 
+            this.onRefresh();
+        },
+        onPageChange: function(v){
+            this.page = v;
+//console.log(v);
             this.getData(this.searchForm);
         },
         showAddDialog: function(){
@@ -215,10 +220,10 @@ export default {
             })
             .then((res) => {
                 var UserRes = res.data;
-                if(UserRes.length>0){
+                if(UserRes.data.length>0){
                     var userids = [];
-                    for(var i in UserRes){
-                        userids.push(UserRes[i].id);
+                    for(var i in UserRes.data){
+                        userids.push(UserRes.data[i].id);
                     }
                     axios({
                         methods:'get',
@@ -228,29 +233,29 @@ export default {
                         }
                     })
                     .then((res) => {
-                        for(var i in UserRes){
-                            UserRes[i].usergroups = res.data.data[UserRes[i].id]?res.data.data[UserRes[i].id].join(','):'';
+                        for(var i in UserRes.data){
+                            UserRes.data[i].usergroups = res.data.data[UserRes.data[i].id]?res.data.data[UserRes.data[i].id].join(','):'';
                         }
-                        that.tableData = UserRes;
-                        that.total = that.tableData.length;
+                        that.tableData = UserRes.data;
+                        that.total = UserRes.total_count;
                         that.loading = false;
                     })
                     .catch(function(err){
                         console.log(err);
                         that.tableData = [];
-                        that.total = that.tableData.length;
+                        that.total = 0;
                         that.loading = false;
                     })
                 }else{
-                    that.tableData = UserRes;
-                    that.total = that.tableData.length;
+                    that.tableData = UserRes.data;
+                    that.total = UserRes.total_count;
                     that.loading = false;
                 }
             })
             .catch(function(err){
                 console.log(err);
                 that.tableData = [];
-                that.total = that.tableData.length;
+                that.total = 0;
                 that.loading = false;
             })
         }
@@ -264,5 +269,9 @@ export default {
 }*/
 #get-data-btn {
     margin-top:20px;
+}
+.pager {
+    margin-top:20px;
+    text-align: center;
 }
 </style>
