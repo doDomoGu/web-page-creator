@@ -61,7 +61,7 @@
                 <el-form-item label="审核状态">
                     <el-select v-model="addForm.verify" placeholder="审核状态">
                         <el-option label="审核通过" value="1"></el-option>
-                        <el-option label="未审核" value="0"></el-option>
+                        <el-option label="待审核" value="0"></el-option>
                         <el-option label="审核失败" value="2"></el-option>
                     </el-select>
                 </el-form-item>
@@ -84,6 +84,9 @@
             <el-table-column prop="verify" :formatter="verifyFormat" label="审核"></el-table-column>
             <el-table-column prop="operation" :formatter="operationFormat" label="操作"></el-table-column>
         </el-table>
+
+            <el-pagination class="pager" layout="prev, pager, next, total" :total="total">
+            </el-pagination>
         <el-button id="get-data-btn" class="el-button--primary" @click="onRefresh" >刷新</el-button>
     </el-row>
 </template>
@@ -100,9 +103,13 @@ export default {
             searchForm: {},// this.$store.getters['search/users'],
             tableData: [],//this.$store.state.users.list
             addForm: {},
+            total:0,
+            page:1,
+            pageSize:10
         }
     },
     created(){
+
         this.loading = true;
 
         //读取store中搜索条件
@@ -149,6 +156,7 @@ export default {
                 //对searchForm字段初始化
                 this.$set(this.searchForm,i,s[i])
             }
+            this.page = 1;
 
             this.getData(this.searchForm);
         },
@@ -198,6 +206,8 @@ export default {
         getData: function (params) {
             var that = this;
             that.loading = true;
+            params.page = that.page;
+            params.pageSize = that.pageSize;
             axios({
                 methods:'get',
                 url:'/users',
@@ -222,21 +232,25 @@ export default {
                             UserRes[i].usergroups = res.data.data[UserRes[i].id]?res.data.data[UserRes[i].id].join(','):'';
                         }
                         that.tableData = UserRes;
+                        that.total = that.tableData.length;
                         that.loading = false;
                     })
                     .catch(function(err){
                         console.log(err);
                         that.tableData = [];
+                        that.total = that.tableData.length;
                         that.loading = false;
                     })
                 }else{
                     that.tableData = UserRes;
+                    that.total = that.tableData.length;
                     that.loading = false;
                 }
             })
             .catch(function(err){
                 console.log(err);
                 that.tableData = [];
+                that.total = that.tableData.length;
                 that.loading = false;
             })
         }
