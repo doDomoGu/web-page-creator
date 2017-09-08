@@ -87,6 +87,7 @@
 
         <el-pagination class="pager" layout="prev, pager, next, total" v-show="tableData.length>0" :page-size="pageSize" :total="total" @current-change="onPageChange" :current-page="page">
         </el-pagination>
+
         <el-button id="get-data-btn" class="el-button--primary" @click="onRefresh" >刷新</el-button>
     </el-row>
 </template>
@@ -109,7 +110,6 @@ export default {
         }
     },
     created(){
-
         this.loading = true;
 
         //读取store中搜索条件
@@ -162,7 +162,7 @@ export default {
         },
         onPageChange: function(v){
             this.page = v;
-//console.log(v);
+
             this.getData(this.searchForm);
         },
         showAddDialog: function(){
@@ -213,9 +213,7 @@ export default {
             that.loading = true;
             params.page = that.page;
             params.pageSize = that.pageSize;
-            axios({
-                methods:'get',
-                url:'/users',
+            axios.get('/users',{
                 params:params
             })
             .then((res) => {
@@ -225,11 +223,9 @@ export default {
                     for(var i in UserRes.data){
                         userids.push(UserRes.data[i].id);
                     }
-                    axios({
-                        methods:'get',
-                        url:'/users/usergroups',
-                        params:{
-                            userids:userids.join(',')
+                    axios.get('/users/usergroups', {
+                        params: {
+                            userids: userids.join(',')
                         }
                     })
                     .then((res) => {

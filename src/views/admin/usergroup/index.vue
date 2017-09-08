@@ -42,7 +42,10 @@
             <el-table-column prop="status" :formatter="statusFormat" label="状态"></el-table-column>
             <el-table-column prop="operation" :formatter="operationFormat" label="操作"></el-table-column>
         </el-table>
-        <!--<el-button id="get-data-btn" class="el-button&#45;&#45;primary" @click="getData()" >获取</el-button>-->
+
+        <el-pagination class="pager" layout="prev, pager, next, total" v-show="tableData.length>0" :page-size="pageSize" :total="total" @current-change="onPageChange" :current-page="page">
+        </el-pagination>
+
     </el-row>
 </template>
 
@@ -57,24 +60,27 @@ export default {
             tableData: this.getData()
         }*/
         return {
-            searchForm: {
-                username: '',
-                name: '',
-                mobile:'',
-                email:'',
-                status:'',
-                verify:''
-            },
-            tableData: this.$store.state.users.list
+            //searchForm: {},
+            tableData: [],
+            total:0,
+            page:1,
+            pageSize:10,
+            //addDialogVisible:false
+            //addForm: {},
         }
     },
     created(){
         this.loading = false;
-        this.getData();
+        this.getData({});
     },
     methods:{
         onSearch:function(){
             console.log('search');
+        },
+        onPageChange: function(v){
+            this.page = v;
+
+            this.getData({});
         },
         sexFormat:function(r, c, v) {
             return  v==1?'男':(v==2?'女':'N/A');
@@ -88,23 +94,28 @@ export default {
         operationFormat:function(r, c, v) {
             return  '---';
         },
-        getData: function () {
+        getData: function (params) {
             var that = this;
             that.loading = true;
-            //axios.get('http://api.web-page.com/users')
-            axios({
-                methos:'get',
-                url:'/usergroups'
+            params.page = that.page;
+            params.pageSize = that.pageSize;
+
+            axios.get('/usergroups',{
+                params:params
             })
-                .then((res) => {
-                    that.tableData = res.data;
-                    that.loading = false;
-                })
-                .catch(function(err){
-                    console.log(err);
-                    that.tableData = [];
-                    that.loading = false;
-                })
+            .then((res) => {
+                var _res = res.data;
+
+                that.tableData = _res.data;
+                that.total = _res.total_count;
+                that.loading = false;
+            })
+            .catch(function(err){
+                console.log(err);
+                that.tableData = [];
+                that.total = 0;
+                that.loading = false;
+            })
         }
         /*mapMutations([
             'LIST'=>(this.$store)
@@ -122,5 +133,10 @@ export default {
 }*/
 #get-data-btn {
     margin-top:20px;
+}
+
+.pager {
+    margin-top:20px;
+    text-align: center;
 }
 </style>
