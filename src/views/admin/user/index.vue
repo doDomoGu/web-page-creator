@@ -52,6 +52,11 @@
                 <el-form-item label="邮箱">
                     <el-input v-model="addForm.email" placeholder="邮箱"></el-input>
                 </el-form-item>
+                <el-form-item label="用户组">
+                    <el-checkbox-group v-model="addForm.usergroups" >
+                        <el-checkbox :label="ug.id" :key="ug.id"  v-for="ug in usergroups">{{ug.name}}</el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
                 <el-form-item label="状态">
                     <el-select v-model="addForm.status" placeholder="状态">
                         <el-option label="正常" value="1"></el-option>
@@ -106,7 +111,8 @@ export default {
             addForm: {},
             total:0,
             page:1,
-            pageSize:10
+            pageSize:10,
+            usergroups:[]
         }
     },
     created(){
@@ -166,7 +172,22 @@ export default {
             this.getData(this.searchForm);
         },
         showAddDialog: function(){
-            this.addDialogVisible = true;
+            axios.get('/usergroups')
+            .then((res) => {
+                var _res = res.data;
+
+                this.usergroups = _res.data;
+console.log(_res.data);
+                this.addDialogVisible = true;
+
+            })
+            .catch(function(err){
+                console.log(err);
+                this.usergroups = [];
+                this.addDialogVisible = true;
+            })
+
+
         },
         closeAddDialog: function(){
             var m = this.$store.getters['users/attributes'];
@@ -177,18 +198,46 @@ export default {
             this.addDialogVisible = false;
         },
         onAddSubmit: function(){
+            var usergroup_ids = [];
+            console.log(this.addForm.usergroups);
+            for(var i in this.addForm.usergroups){
+                usergroup_ids.push(i);
+            }
+            console.log(usergroup_ids);return false;
+
             axios.post(
                 '/users',
                 this.addForm
             )
             .then((res) => {
-                if(res && res.data && res.data.id>0){
-                    this.closeAddDialog();
-                    this.$message({
-                        message: '添加成功！',
-                        type: 'success'
-                    });
-                    this.onRefresh();
+                if(res && res.data && res.data.id>0) {
+                    var usergroup_ids = [];
+                    for (var i in this.addForm.usergroups) {
+                        usergroup_ids.push(i);
+                    }
+                    console.log(usergroup_ids);
+                    return false;
+                    axios.post(
+                        '/users/usergroups',
+                        {
+                            data: {
+                                usergroup_ids: usergroup_ids
+                            }
+                        }
+                    )
+                    .then((res) => {
+
+
+                        this.closeAddDialog();
+                        this.$message({
+                            message: '添加成功！',
+                            type: 'success'
+                        });
+                        this.onRefresh();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    })
                 }
             })
             .catch(function(err){

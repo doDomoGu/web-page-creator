@@ -10,7 +10,8 @@ const state = {
         mobile: "",
         email: "",
         status: "1",
-        verify: "1"
+        verify: "1",
+        usergroups: []
     },
     list:[]
 };
