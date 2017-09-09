@@ -92,14 +92,15 @@
 
         <el-pagination class="pager" layout="prev, pager, next, total" v-show="tableData.length>0" :page-size="pageSize" :total="total" @current-change="onPageChange" :current-page="page">
         </el-pagination>
-
-        <el-button id="get-data-btn" class="el-button--primary" @click="onRefresh" >刷新</el-button>
+<!--
+        <el-button id="get-data-btn" class="el-button&#45;&#45;primary" @click="onRefresh" >刷新</el-button>-->
     </el-row>
 </template>
 
 <script>
 import { mapActions,mapMutations } from 'vuex'
 import axios from '../../../axios'
+import qs from 'qs'
 
 export default {
     name: 'user_index',
@@ -177,7 +178,7 @@ export default {
                 var _res = res.data;
 
                 this.usergroups = _res.data;
-console.log(_res.data);
+//console.log(_res.data);
                 this.addDialogVisible = true;
 
             })
@@ -198,12 +199,8 @@ console.log(_res.data);
             this.addDialogVisible = false;
         },
         onAddSubmit: function(){
-            var usergroup_ids = [];
-            console.log(this.addForm.usergroups);
-            for(var i in this.addForm.usergroups){
-                usergroup_ids.push(i);
-            }
-            console.log(usergroup_ids);return false;
+            var usergroup_ids = this.addForm.usergroups;
+
 
             axios.post(
                 '/users',
@@ -211,23 +208,21 @@ console.log(_res.data);
             )
             .then((res) => {
                 if(res && res.data && res.data.id>0) {
-                    var usergroup_ids = [];
+                    /*var usergroup_ids = [];
                     for (var i in this.addForm.usergroups) {
                         usergroup_ids.push(i);
                     }
                     console.log(usergroup_ids);
-                    return false;
+                    return false;*/
                     axios.post(
-                        '/users/usergroups',
+                        '/users/'+res.data.id+'/usergroups',
                         {
-                            data: {
+                            data: qs.stringify({
                                 usergroup_ids: usergroup_ids
-                            }
+                            })
                         }
                     )
                     .then((res) => {
-
-
                         this.closeAddDialog();
                         this.$message({
                             message: '添加成功！',
