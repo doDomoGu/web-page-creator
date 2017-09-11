@@ -287,8 +287,8 @@ export default {
                         that.loading = false;
                     })
                 }else{
-                    that.tableData = UserRes.data;
-                    that.total = UserRes.total_count;
+                    that.tableData = [];
+                    that.total = 0;
                     that.loading = false;
                 }
             })

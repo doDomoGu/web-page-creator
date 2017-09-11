@@ -39,6 +39,7 @@
             <el-table-column prop="name" label="名称" width="180"></el-table-column>
             <el-table-column prop="alias" label="别名" width="180"></el-table-column>
             <el-table-column prop="remark" label="备注" width="180"></el-table-column>
+            <el-table-column prop="user_num" label="用户数" width="180"></el-table-column>
             <el-table-column prop="status" :formatter="statusFormat" label="状态"></el-table-column>
             <el-table-column prop="operation" :formatter="operationFormat" label="操作"></el-table-column>
         </el-table>
@@ -105,10 +106,35 @@ export default {
             })
             .then((res) => {
                 var _res = res.data;
-
-                that.tableData = _res.data;
-                that.total = _res.total_count;
-                that.loading = false;
+                if(_res.data.length>0){
+                    var usergroup_ids = [];
+                    for(var i in _res.data){
+                        usergroup_ids.push(_res.data[i].id);
+                    }
+                    axios.get('/usergroups/users', {
+                        params: {
+                            usergroup_ids: usergroup_ids.join(',')
+                        }
+                    })
+                        .then((res) => {
+                            for(var i in _res.data){
+                                _res.data[i].user_num = res.data.data[_res.data[i].id]?res.data.data[_res.data[i].id].length:0;
+                            }
+                            that.tableData = _res.data;
+                            that.total = _res.total_count;
+                            that.loading = false;
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                            that.tableData = [];
+                            that.total = 0;
+                            that.loading = false;
+                        })
+                }else{
+                    that.tableData = [];
+                    that.total = 0;
+                    that.loading = false;
+                }
             })
             .catch(function(err){
                 console.log(err);
