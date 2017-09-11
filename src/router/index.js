@@ -92,6 +92,8 @@ var roleRouterMap = [
 
 //roleRoutes  不同path对应的roles数组
 var roleRoutes = [];
+
+
 for(var i in roleRouterMap){
     roleRoutes[roleRouterMap[i].path] = roleRouterMap[i].roles;
 }
@@ -103,11 +105,6 @@ for(var i in AdminRouterMap){
     roleRouterMap.push(AdminRouterMap[i]);
     roleRoutes[AdminRouterMap[i].path] = AdminRouterMap[i].roles;
 }
-
-
-
-
-
 
 
 

@@ -46,8 +46,6 @@ router.beforeEach((to, from, next) => {
                         store.dispatch('GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
                             router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
                         });
-                        //console.log('a1111');
-                        //console.log(store.getters.auth_is_login);
                         next(to.path);
                     }else{
                         //提交的token 错误

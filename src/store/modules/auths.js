@@ -87,16 +87,18 @@ const actions = {
 
         var roles = data.roles;
 
-        if(roles){
-            var routerMap = data.router.options.roleRouterMap;
+        var routerMap = data.router.options.roleRouterMap;
 
-            for(var i in routerMap){
+        for(var i in routerMap){
+            if(routerMap[i].roles == '*'){
+                routes.push(routerMap[i]);
+            }else if(roles) {
                 for(var j in roles){
-                    if(roles[j] == 'super_admin' || routerMap[i].roles == '*' || routerMap[i].roles.indexOf(roles[j]) !== -1){
+                    if(roles[j] == 'super_admin' || routerMap[i].roles.indexOf(roles[j]) !== -1){
                         routes.push(routerMap[i]);
-                        //                  console.log(routeOne[i]);
                     }
                 }
+
             }
         }
 

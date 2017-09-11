@@ -1,53 +1,44 @@
 <template>
-  <div id="sidebar">
-    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
-      <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
-      <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
+    <div id="sidebar">
+        <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
+            <el-menu-item-group :title="username">
+            </el-menu-item-group>
+            <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
+            <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
 
-      <el-submenu index="admin">
-        <template slot="title">
-          <i class="el-icon-caret-right"></i>后台管理
-        </template>
-        <el-menu-item index="/admin/user">用户</el-menu-item>
-        <el-menu-item index="/admin/usergroup">用户组</el-menu-item>
-      </el-submenu>
-      <el-menu-item index="/logout"><i class="el-icon-caret-right"></i>退出</el-menu-item>
-
-     <!-- <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-message"></i>导航一
-        </template>
-        <el-menu-item index="1-1">选项1</el-menu-item>
-        <el-menu-item index="1-2">选项2</el-menu-item>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title">
-          <i class="el-icon-message"></i>导航二
-        </template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-      </el-submenu>
-
-      <el-menu-item index="4"><i class="el-icon-setting"></i>导航四</el-menu-item>
-      <el-menu-item index="/about"><i class="el-icon-setting"></i>导航四</el-menu-item>-->
-    </el-menu>
-  </div>
-
+            <el-submenu index="admin">
+                <template slot="title">
+                    <i class="el-icon-caret-right"></i>后台管理
+                </template>
+                <el-menu-item index="/admin/user">用户</el-menu-item>
+                <el-menu-item index="/admin/usergroup">用户组</el-menu-item>
+            </el-submenu>
+            <el-menu-item index="/logout"><i class="el-icon-caret-right"></i>退出</el-menu-item>
+        </el-menu>
+    </div>
 </template>
 
 <script>
   export default {
+      data(){
+          return {
+              username:this.$store.state.auths.user_id?this.$store.state.auths.user_id:''
+          }
+      },
     methods: {
       handleOpen(key, keyPath) {
-        //console.log('open',key, keyPath);
+        console.log('open',key, keyPath);
       },
       handleClose(key, keyPath) {
-        //console.log('close',key, keyPath);
+        console.log('close',key, keyPath);
       },
       handleSelect(key, keyPath) {
-        //console.log('select',key, keyPath);
+        console.log('select',key, keyPath);
       }
-    }
+    },
+      created(){
+         console.log(this.$router);
+      }
   }
 </script>
 
