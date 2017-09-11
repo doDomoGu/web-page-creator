@@ -2,12 +2,12 @@
     <el-dialog id="loginDialog" title="登录" v-bind:visible=true size="full"  v-bind:showClose=false>
         <el-form id="loginForm" ref="form" :model="form" label-width="80px">
             <el-form-item label="账号">
-                <el-input v-model="form.username" @keyup.enter.native="onSubmit" ></el-input>
+                <el-input v-model="form.username" @keydown.enter.native="onSubmit" ></el-input>
             </el-form-item>
             <el-form-item label="密码">
                 <el-popover :content="errormsg" placement="right" trigger="manual" ref="popover4"  effect="light">
                 </el-popover>
-                <el-input  @keyup.enter.native="onSubmit" type="password" v-model="form.password" v-popover:popover4></el-input>
+                <el-input  @keydown.enter.native="onSubmit" type="password" v-model="form.password" v-popover:popover4></el-input>
 
                 <!--<el-input type="password" v-model="form.password"></el-input>-->
             </el-form-item>
