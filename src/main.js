@@ -18,7 +18,10 @@ Vue.config.productionTip = false;
 router.beforeEach((to, from, next) => {
     if (to.path === '/logout') {
         store.dispatch('Logout').then(() => {
-            next({path: '/'})
+            store.dispatch('GenerateRoutes', {roles: [], router: router}).then(() => { // 生成可访问的路由表
+                router.replace(store.getters.auth_add_routes) // 动态添加可访问路由表
+            });
+            next({path: '/login'})
         })
     }
     //console.log('start beforeEach');
