@@ -18,7 +18,7 @@ Vue.use(Router);
 console.warn('1. in router');
 
 
-//默认路由  无需权限验证
+//routes:默认路由  无需权限验证
 var routes = [
     {
         path: '/login',
@@ -33,7 +33,7 @@ var routes = [
     },
 ];
 
-
+//routePathsNotRequiredAuth: 无需权限验证的路由路径数组
 var routePathsNotRequiredAuth = [];
 
 for(var i in routes){
@@ -52,17 +52,6 @@ if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
     store.dispatch('auths/CheckToken',tokenInLocalStorge);
 
 }
-
-
-//return false;
-/*if (!store.getters['auths/is_login']) {
-    var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
-
-    if (typeof(tokenInLocalStorge)=='string') {
-        store.dispatch('auths/CheckToken',tokenInLocalStorge);
-    }
-}*/
-
 //roleRouteMap  所有登录后角色可以使用的路由
 var roleRouterMap = [
     {
@@ -92,6 +81,7 @@ for(var i in AdminRouterMap){
 
 
     roleRouterMap.push(AdminRouterMap[i]);
+
     roleRoutes[AdminRouterMap[i].path] = AdminRouterMap[i].roles;
 }
 
@@ -100,6 +90,7 @@ for(var i in AdminRouterMap){
 
 var router404 = { path: '*', name: '404', component: NotFound404 }
 
+
 if (store.getters['auths/is_login']) {
     routes.push(
         {
@@ -107,8 +98,16 @@ if (store.getters['auths/is_login']) {
             name: '首页',
             component: Index,
             roles: '*'
-        }
+        }/*,
+        { path: '*', name: '404', component: NotFound404 }*/
     )
+
+    for(var i in roleRouterMap){
+        routes.push(roleRouterMap[i]);
+    }
+
+
+    routes.push(router404);
 }
 
 

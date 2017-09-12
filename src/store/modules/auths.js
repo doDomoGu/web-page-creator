@@ -136,9 +136,9 @@ console.log(routes);
     },
     CheckToken({dispatch,commit},token){
         console.warn('   2.1 checkToken');
+        dispatch('SetStore',{user_id:1});
 
-
-        return new Promise((resolve, reject) => {
+        /*return new Promise((resolve, reject) => {
             axios.get(
                 '/auths',
                 {
@@ -153,11 +153,11 @@ console.log(routes);
 
                     dispatch('SetStore',res.data);
 
-                    /*dispatch('auths/GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
+                    /!*dispatch('auths/GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
                         console.log(this.getters['auths/add_routes']);
 
                         //router.addRoutes() // 动态添加可访问路由表
-                    });*/
+                    });*!/
                     //next();
                     //next(to.path);
                 } else {
@@ -173,7 +173,7 @@ console.log(routes);
             .catch(error => {
                 reject(error);
             });
-        });
+        });*/
     },
     GetAuthInfo({commit},token){
         return new Promise((resolve, reject) => {

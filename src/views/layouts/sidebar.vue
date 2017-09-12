@@ -1,8 +1,8 @@
 <template>
     <div id="sidebar">
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
-            <el-menu-item-group :title="username">
-            </el-menu-item-group>
+            <!--<el-menu-item-group :title="username">
+            </el-menu-item-group>-->
             <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
             <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
 
