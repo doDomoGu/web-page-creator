@@ -15,7 +15,10 @@ import AdminRouterMap from './admin/index'
 
 Vue.use(Router);
 
+console.warn('1. in router');
 
+
+//默认路由  无需权限验证
 var routes = [
     {
         path: '/login',
@@ -39,61 +42,28 @@ for(var i in routes){
 
 
 
-if (!store.getters['auths/is_login']) {
+
+var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
+
+console.warn('2. LocalStorgeToken is exist :'+ (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !=''));
+
+if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
+
+    store.dispatch('auths/CheckToken',tokenInLocalStorge);
+
+}
+
+
+//return false;
+/*if (!store.getters['auths/is_login']) {
     var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
 
     if (typeof(tokenInLocalStorge)=='string') {
         store.dispatch('auths/CheckToken',tokenInLocalStorge);
     }
-}
-
-
-
-//constantRouterMap  基础路由 不需登录访问权限
-var constantRouterMap = [
-    {
-        path: '/login',
-        component: Login,
-        name: '登录页',
-    },
-    {
-        path: '/about',
-        component: About,
-        name: '关于我们',
-        //hidden: true //hidden为自定义属性，侧边栏那章会纤细解释
-    },
-];
-
-
-//constantRoutes  基础路由 只包含path值的数组
-var constantRoutes = [];
-for(var i in constantRouterMap){
-    constantRoutes.push(constantRouterMap[i].path);
-}
-
-
-/*//roleAllRouteMap  所有登录后角色可以使用的路由
-var roleAllRouterMap = [
-    {
-        path: '/logout',
-        name: '登出'/!*,
-        component: Logout*!/
-    },
-    {
-        path: '/',
-        component: Index,
-        name: '首页',
-    }
-];
-
-//roleAllRoutes  只包含path值的数组
-var roleAllRoutes = [];
-for(var i in roleAllRouterMap){
-    roleAllRoutes.push(roleAllRouterMap[i].path);
 }*/
 
-
-//roleRouteMap  根据roles属性值 区分哪个角色 可以使用
+//roleRouteMap  所有登录后角色可以使用的路由
 var roleRouterMap = [
     {
         path: '/logout',
@@ -105,19 +75,7 @@ var roleRouterMap = [
         name: '首页',
         component: Index,
         roles: '*'
-    },
-    /*{
-        path: '/user',
-        name: '用户',
-        component: User,
-        roles: ['super_admin','user_admin']
-    },
-    {
-        path: '/website',
-        name: '网站',
-        component: Website,
-        roles: ['super_admin','website_admin']
-    }*/
+    }
 ];
 
 
@@ -165,7 +123,6 @@ const router = new Router({
 console.log('before each 1111');
 router.beforeEach((to, from, next) => {
     console.log('before each 222');
-    console.log(to.path);
     if (to.path =="/logout") {
         store.dispatch('auths/Logout').then(() => {
             /*store.dispatch('GenerateRoutes', {roles: [], router: router}).then(() => { // 生成可访问的路由表
@@ -173,12 +130,13 @@ router.beforeEach((to, from, next) => {
             });*/
             next({path: '/login'});
         })
-    }
-    else {
+    } else {
+
         const user = store.state.auths.is_login;
+
         if(user){
             console.log('is login');
-
+            next();
         }else{
             if (router.options.routePathsNotRequiredAuth.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
                 console.log('white');

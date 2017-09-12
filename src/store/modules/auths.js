@@ -135,7 +135,9 @@ console.log(routes);
         commit('setAddRoutes',routes);
     },
     CheckToken({dispatch,commit},token){
-        console.log('check_token');
+        console.warn('   2.1 checkToken');
+
+
         return new Promise((resolve, reject) => {
             axios.get(
                 '/auths',
@@ -147,7 +149,8 @@ console.log(routes);
             )
             .then((res) => {
                 if (res.data && res.data.success) {
-                    console.log('checkToken success');
+                    console.warn('   2.1.1 checkToken success');
+
                     dispatch('SetStore',res.data);
 
                     /*dispatch('auths/GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
@@ -158,12 +161,10 @@ console.log(routes);
                     //next();
                     //next(to.path);
                 } else {
-                    console.log('get error');
+                    console.warn('   2.1.2 checkToken failure');
 
                     //提交的token 错误
-                    commit('cleanLoginState');
-
-
+                    dispatch('CleanStore');
 
                     //next('/login');
                 }
@@ -196,11 +197,19 @@ console.log(routes);
                 });
         });
     },
-    SetStore({dispatch,commit},data){
+    SetStore({commit},data){
+        console.warn("  ** setStore **");
+
+
         commit('setToken',{token:data.token,forceUpdate:data.tokenForceUpdate});
         commit('setLoginState');
         commit('setUserId',{user_id:data.user_id});
         commit('setRoles',{roles:data.roles});
+    },
+    CleanStore({commit}){
+        console.warn("  ** cleanStore **");
+
+        commit('cleanLoginState');
     }
 
 };

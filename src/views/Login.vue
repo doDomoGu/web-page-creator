@@ -30,7 +30,7 @@
         data() {
             return {
                 form: {
-                    username: 'name123',
+                    username: 'admin',
                     password: '123123'
                 },
                 errormsg: ''
