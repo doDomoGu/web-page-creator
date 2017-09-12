@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import users from './modules/users';
-import websites from './modules/websites';
+//import websites from './modules/websites';
 import auths from './modules/auths';
 import search from './search';
 

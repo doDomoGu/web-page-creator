@@ -6,7 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import axios from './axios'
-//import Cookies from 'js-cookie'
+import Cookies from 'js-cookie'
 import store from './store'
 
 
@@ -14,46 +14,19 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 
-
-
-
-
-/*router.beforeEach((to, from, next) => {
-    //权限验证
-    //是否登录状态
-    if (store.getters.auth_is_login) {
-        //退出操作
-        if (to.path === '/logout') {
-
-
-
-            store.dispatch('Logout').then(() => {
-                store.dispatch('GenerateRoutes', {roles: [], router: router}).then(() => { // 生成可访问的路由表
-                    router.replace(store.getters.auth_add_routes) // 动态添加可访问路由表
-                });
-                next({path: '/login'});
-            })
-        }else{
-            next();
-        }
-    }else{
-
-    }
-
-
-
-
+//登录验证
+router.beforeEach((to, from, next) => {
     if (to.path === '/logout') {
-        store.dispatch('Logout').then(() => {
-            store.dispatch('GenerateRoutes', {roles: [], router: router}).then(() => { // 生成可访问的路由表
-                router.replace(store.getters.auth_add_routes) // 动态添加可访问路由表
+        store.dispatch('auths/Logout').then(() => {
+            store.dispatch('auths/GenerateRoutes', {roles: [], router: router}).then(() => { // 生成可访问的路由表
+                router.replace(store.getters['auths/add_routes']) // 动态添加可访问路由表
             });
             next({path: '/login'});
         })
     }
     //console.log('start beforeEach');
     //是否登录状态
-    if (!store.getters.auth_is_login) {
+    if (!store.getters['auths/is_login']) {
         //console.log('not login');
         //读取cookie
         var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;//Cookies.get('wpc_auth_token');
@@ -81,10 +54,10 @@ Vue.config.productionTip = false;
 
                                console.log('res user_id:' + res.data.user_id);
 
-                               store.dispatch('SetStore', res.data);
+                               store.dispatch('auths/SetStore', res.data);
                                console.log(2222);
-                               store.dispatch('GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
-                                   router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
+                               store.dispatch('auths/GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
+                                   router.addRoutes(store.getters['auths/add_routes']) // 动态添加可访问路由表
                                });
                                next();
                                //next(to.path);
@@ -92,7 +65,7 @@ Vue.config.productionTip = false;
                                //提交的token 错误
                                //Cookies.set('wpc_auth_token','',{expires:-1,path:'/'}));
 
-                               store.commit('cleanLoginState');
+                               store.commit('auths/cleanLoginState');
 
                                next('/login');
                            }
@@ -126,12 +99,23 @@ Vue.config.productionTip = false;
         }
     }else{
         //是登录状态
-        next();
+        // 加载路由
+        /*store.dispatch('GenerateRoutes', {roles: store.getters['auths/roles'], router: router}).then(() => { // 生成可访问的路由表
+            router.addRoutes(store.getters.auth_add_routes) // 动态添加可访问路由表
+        });*/
 
+        next();
+        /*console.log('no auth token');
+
+        if (router.options.constantRoutes.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
+            next();
+        } else {
+            next('/login'); // 否则全部重定向到登录页
+        }*/
 
     }
 
-});*/
+});
 
 
 /*console.log(store.getters.auth_token);

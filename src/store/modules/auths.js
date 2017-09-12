@@ -1,5 +1,5 @@
-import * as types from './../types.js';
-import Cookies from 'js-cookie'
+//import * as types from './../types.js';
+//import Cookies from 'js-cookie'
 
 import axios from '../../axios'
 
@@ -31,7 +31,7 @@ const actions = {
                 });
         });
     },
-    Login({ commit }, formData) {
+    Login({ dispatch,commit }, formData) {
         const username = formData.username.trim();
         const password = formData.password.trim();
         return new Promise((resolve, reject) => {
@@ -44,10 +44,13 @@ const actions = {
             )
             .then((res) => {
                 if(res.data && res.data.success){
-                    commit('setToken',{token:res.data.token,updateToken:true});
+                    res.data.tokenForceUpdate = true;
+
+                    dispatch('SetStore',res.data);
+                    /*commit('setToken',{token:res.data.token,updateToken:true});
                     commit('setLoginState');
                     commit('setUserId',{user_id:res.data.user_id});
-                    commit('setRoles',{roles:res.data.roles});
+                    commit('setRoles',{roles:res.data.roles});*/
                 }
 
 
@@ -125,9 +128,51 @@ const actions = {
         routes.push(
             data.router.options.router404
         );
-
+        console.log('');
+        console.log('auths generate route');
+console.log(routes);
 
         commit('setAddRoutes',routes);
+    },
+    CheckToken({dispatch,commit},token){
+        console.log('check_token');
+        return new Promise((resolve, reject) => {
+            axios.get(
+                '/auths',
+                {
+                    params: {
+                        token: token
+                    }
+                }
+            )
+            .then((res) => {
+                if (res.data && res.data.success) {
+                    console.log('checkToken success');
+                    dispatch('SetStore',res.data);
+
+                    /*dispatch('auths/GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
+                        console.log(this.getters['auths/add_routes']);
+
+                        //router.addRoutes() // 动态添加可访问路由表
+                    });*/
+                    //next();
+                    //next(to.path);
+                } else {
+                    console.log('get error');
+
+                    //提交的token 错误
+                    commit('cleanLoginState');
+
+
+
+                    //next('/login');
+                }
+                resolve(res);
+            })
+            .catch(error => {
+                reject(error);
+            });
+        });
     },
     GetAuthInfo({commit},token){
         return new Promise((resolve, reject) => {
@@ -151,8 +196,8 @@ const actions = {
                 });
         });
     },
-    SetStore({commit},data){
-        commit('setToken',{token:data.token});
+    SetStore({dispatch,commit},data){
+        commit('setToken',{token:data.token,forceUpdate:data.tokenForceUpdate});
         commit('setLoginState');
         commit('setUserId',{user_id:data.user_id});
         commit('setRoles',{roles:data.roles});
@@ -161,17 +206,17 @@ const actions = {
 };
 
 const getters = {
-    auth_token: state => state.token,
-    auth_roles: state => state.roles,
-    auth_user_id: state => state.user_id,
-    auth_add_routes: state => state.add_routes,
-    auth_is_login: state => state.is_login
+    token: state => state.token,
+    roles: state => state.roles,
+    user_id: state => state.user_id,
+    add_routes: state => state.add_routes,
+    is_login: state => state.is_login
 };
 
 const mutations = {
     setToken: (state, data) => {
         state.token = data.token;
-        if(data.updateToken) {
+        if(data.forceUpdate) {
             localStorage.__WPC_AUTH_TOKEN__ = data.token;
             //Cookies.set('wpc_auth_token', data.token, {expires: 1, path: '/'}); //expires 单位为天
         }
@@ -201,6 +246,7 @@ const mutations = {
 };
 
 export default {
+    namespaced:true,
     state,
     actions,
     getters,
