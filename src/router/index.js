@@ -11,6 +11,7 @@ import Login from '../views/Login'
 //import Logout from '../components/Logout'
 
 import NotFound404 from '../views/NotFound404'
+import NotFound222 from '../views/NotFound222'
 import AdminRouterMap from './admin/index'
 
 Vue.use(Router);
@@ -45,71 +46,94 @@ for(var i in routes){
 
 var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
 
+var checkToken = false;
 console.warn('2. LocalStorgeToken is exist :'+ (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !=''));
 
 if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
 
-    store.dispatch('auths/CheckToken',tokenInLocalStorge);
+    checkToken = true;
 
-}
-//roleRouteMap  所有登录后角色可以使用的路由
-var roleRouterMap = [
-    {
-        path: '/logout',
-        name: '登出',
-        roles: '*'
-    },
-    {
-        path: '/',
-        name: '首页',
-        component: Index,
-        roles: '*'
-    }
-];
+    store.dispatch('auths/CheckToken',tokenInLocalStorge).then(() => { // 生成可访问的路由表
+        
+
+        //roleRouteMap  所有登录后角色可以使用的路由
+        var roleRouterMap = [
+            {
+                path: '/logout',
+                name: '登出',
+                roles: '*'
+            },
+            {
+                path: '/',
+                name: '首页',
+                component: Index,
+                roles: '*'
+            }
+        ];
 
 //roleRoutes  不同path对应的roles数组
-/*var roleRoutes = [];
+        /*var roleRoutes = [];
 
 
-for(var i in roleRouterMap){
-    roleRoutes[roleRouterMap[i].path] = roleRouterMap[i].roles;
-}*/
+        for(var i in roleRouterMap){
+            roleRoutes[roleRouterMap[i].path] = roleRouterMap[i].roles;
+        }*/
 
-for(var i in AdminRouterMap){
-    AdminRouterMap[i].path = '/admin'+AdminRouterMap[i].path;
+        for(var i in AdminRouterMap){
+            AdminRouterMap[i].path = '/admin'+AdminRouterMap[i].path;
 
-    roleRouterMap.push(AdminRouterMap[i]);
+            roleRouterMap.push(AdminRouterMap[i]);
 
-    //roleRoutes[AdminRouterMap[i].path] = AdminRouterMap[i].roles;
-}
-
-
+            //roleRoutes[AdminRouterMap[i].path] = AdminRouterMap[i].roles;
+        }
 
 
-var router404 = { path: '*', name: '404', component: NotFound404 }
 
 
-if (store.getters['auths/is_login']) {
+        var router404 = { path: '*', name: '404', component: NotFound404 }
 
-    var roles = store.getters['auths/roles'];
 
-    for(var i in roleRouterMap){
-        if(roleRouterMap[i].roles == '*'){
-            routes.push(roleRouterMap[i]);
-        }else if(roles) {
-            for(var j in roles){
-                if(roles[j] == 'super_admin' || roleRouterMap[i].roles.indexOf(roles[j]) !== -1){
-                    routes.push(roleRouterMap[i]);
+
+        var roles = store.getters['auths/roles'];
+
+
+        var routes = [];
+
+        for(var i in roleRouterMap){
+            if(roleRouterMap[i].roles == '*'){
+                routes.push(roleRouterMap[i]);
+            }else if(roles) {
+                for(var j in roles){
+                    if(roles[j] == 'super2_admin' || roleRouterMap[i].roles.indexOf(roles[j]) !== -1){
+                        routes.push(roleRouterMap[i]);
+                    }
                 }
             }
-
         }
-    }
+
+//404页面
+        routes.push(router404);
 
 
-    //404页面
-    routes.push(router404);
+
+
+
+        router.addRoutes(routes);
+
+        router.push('/');
+    });
 }
+
+
+
+
+
+if(checkToken){
+    var router222 = { path: '/222', name: '222', component: NotFound222 }
+    routes.push(router222);
+
+}
+
 
 const router = new Router({
     mode:'history',
@@ -136,12 +160,20 @@ router.beforeEach((to, from, next) => {
             console.log('is login');
             next();
         }else{
-            if (router.options.routePathsNotRequiredAuth.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
-                console.log('white');
+            if(to.path == '/222'){
                 next();
-            } else {
-                console.warn("需要登录");
-                next({'path': '/login'});
+            }else{
+                if(checkToken){
+                    next('/222');
+                }else{
+                    if (router.options.routePathsNotRequiredAuth.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
+                        console.log('white');
+                        next();
+                    } else {
+                        console.warn("需要登录");
+                        next({'path': '/login'});
+                    }
+                }
             }
         }
     }
