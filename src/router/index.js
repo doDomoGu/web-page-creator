@@ -9,8 +9,8 @@ import Index from '../views/Index'
 import About from '../components/About'
 import Login from '../views/Login'
 //import Logout from '../components/Logout'
-import NotFound404 from '../views/NotFound404'
 
+import NotFound404 from '../views/NotFound404'
 import AdminRouterMap from './admin/index'
 
 Vue.use(Router);
@@ -67,22 +67,20 @@ var roleRouterMap = [
     }
 ];
 
-
 //roleRoutes  不同path对应的roles数组
-var roleRoutes = [];
+/*var roleRoutes = [];
 
 
 for(var i in roleRouterMap){
     roleRoutes[roleRouterMap[i].path] = roleRouterMap[i].roles;
-}
+}*/
 
 for(var i in AdminRouterMap){
     AdminRouterMap[i].path = '/admin'+AdminRouterMap[i].path;
 
-
     roleRouterMap.push(AdminRouterMap[i]);
 
-    roleRoutes[AdminRouterMap[i].path] = AdminRouterMap[i].roles;
+    //roleRoutes[AdminRouterMap[i].path] = AdminRouterMap[i].roles;
 }
 
 
@@ -92,25 +90,26 @@ var router404 = { path: '*', name: '404', component: NotFound404 }
 
 
 if (store.getters['auths/is_login']) {
-    routes.push(
-        {
-            path: '/',
-            name: '首页',
-            component: Index,
-            roles: '*'
-        }/*,
-        { path: '*', name: '404', component: NotFound404 }*/
-    )
+
+    var roles = store.getters['auths/roles'];
 
     for(var i in roleRouterMap){
-        routes.push(roleRouterMap[i]);
+        if(roleRouterMap[i].roles == '*'){
+            routes.push(roleRouterMap[i]);
+        }else if(roles) {
+            for(var j in roles){
+                if(roles[j] == 'super_admin' || roleRouterMap[i].roles.indexOf(roles[j]) !== -1){
+                    routes.push(roleRouterMap[i]);
+                }
+            }
+
+        }
     }
 
 
+    //404页面
     routes.push(router404);
 }
-
-
 
 const router = new Router({
     mode:'history',

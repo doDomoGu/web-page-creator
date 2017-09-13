@@ -136,7 +136,7 @@ console.log(routes);
     },
     CheckToken({dispatch,commit},token){
         console.warn('   2.1 checkToken');
-        dispatch('SetStore',{user_id:1});
+        dispatch('SetStore',{user_id:1,roles:['super_admin']});
 
         /*return new Promise((resolve, reject) => {
             axios.get(
