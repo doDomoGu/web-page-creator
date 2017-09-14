@@ -1,9 +1,8 @@
 <template>
     <div :visible.sync="is_login" id="sidebar">
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
-            <!--<el-menu-item-group :title="username">
-            </el-menu-item-group>-->
             <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
+            <el-menu-item index="/admin"><i class="el-icon-menu"></i>首页222</el-menu-item>
             <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
 
             <el-submenu index="admin">
@@ -15,51 +14,45 @@
             </el-submenu>
             <el-menu-item index="/logout"><i class="el-icon-caret-right"></i>退出</el-menu-item>
         </el-menu>
+        <div>
+            <input v-model="username"/>  {{username}}
+             {{username22}}
+        </div>
     </div>
 </template>
-
 <script>
-  export default {
-      data(){
-          return {
-              is_login:this.$store.getters['auths/is_login'],
-              username:this.$store.state.auths.user_id?this.$store.state.auths.user_id:'dada'
-          }
-      },
-    methods: {
-      handleOpen(key, keyPath) {
-        console.log('open',key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log('close',key, keyPath);
-      },
-      handleSelect(key, keyPath) {
-        console.log('select',key, keyPath);
-      },
-        getRoute(){
-          console.log(1111);
-          console.log(this.$store.state.auths.add_routes);
+export default {
+    data(){
+        return {
+            is_login:this.$store.getters['auths/is_login'],
+            username:this.$store.getters['auths/user_id'],
+            username22:this.$store.state.auths.user_id
         }
     },
-      created(){
-          /*console.log('');
-          console.log('sidebar created start');
-         console.log(this.$router);
-         console.log(this.$router.options.routes);
-          console.log('sidebar created stop');*/
-      }
-  }
+    methods: {
+        handleOpen(key, keyPath) {
+            //console.log('open',key, keyPath);
+        },
+        handleClose(key, keyPath) {
+            //console.log('close',key, keyPath);
+        },
+        handleSelect(key, keyPath) {
+            //console.log('select',key, keyPath);
+        },
+    },
+    created(){
+        console.log('sidebar created');
+    }
+}
 </script>
-
 <style>
-  #sidebar {
-    height:100%;
-    width:240px;
-    position:absolute;
-  }
-
-  #sidebar .el-menu {
-    height:100%;
-    border-radius: 0;
-  }
+    #sidebar {
+        height:100%;
+        width:240px;
+        position:absolute;
+        background-color:#324157;
+    }
+    #sidebar .el-menu {
+        border-radius: 0;
+    }
 </style>

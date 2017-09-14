@@ -1,5 +1,6 @@
 <template>
     <el-row class="user-main">
+        <router-link to="/">home</router-link>
         <el-form :inline="true" :model="searchForm" class="demo-form-inline">
             <el-form-item label="用户名">
                 <el-input v-model="searchForm.username" placeholder="用户名"></el-input>
@@ -92,8 +93,6 @@
 
         <el-pagination class="pager" layout="prev, pager, next, total" v-show="tableData.length>0" :page-size="pageSize" :total="total" @current-change="onPageChange" :current-page="page">
         </el-pagination>
-<!--
-        <el-button id="get-data-btn" class="el-button&#45;&#45;primary" @click="onRefresh" >刷新</el-button>-->
     </el-row>
 </template>
 

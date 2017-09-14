@@ -1,6 +1,8 @@
 <template>
     <div class="hello">
         <span>首页</span>
+        <router-link to="/admin/user">admin user</router-link>
+
         <!--<h2>Essential Links2</h2>
         <router-link to="/about">关于</router-link>-->
     </div>
