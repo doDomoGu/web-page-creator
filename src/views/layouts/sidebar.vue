@@ -1,5 +1,5 @@
 <template>
-    <div id="sidebar">
+    <div :visible.sync="is_login" id="sidebar">
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
             <!--<el-menu-item-group :title="username">
             </el-menu-item-group>-->
@@ -14,7 +14,6 @@
                 <el-menu-item index="/admin/usergroup">用户组</el-menu-item>
             </el-submenu>
             <el-menu-item index="/logout"><i class="el-icon-caret-right"></i>退出</el-menu-item>
-            <!--<el-menu-item @click="getRoute"><i class="el-icon-caret-right"></i>3132</el-menu-item>-->
         </el-menu>
     </div>
 </template>
@@ -23,7 +22,7 @@
   export default {
       data(){
           return {
-
+              is_login:this.$store.getters['auths/is_login'],
               username:this.$store.state.auths.user_id?this.$store.state.auths.user_id:'dada'
           }
       },

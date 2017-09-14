@@ -3,14 +3,14 @@ import Router from 'vue-router'
 
 
 import store from '../store'
-//import axios from '../axios'
+import axios from '../axios'
 
 import Index from '../views/Index'
 import About from '../components/About'
 import Login from '../views/Login'
 
 import NotFound404 from '../views/NotFound404'
-//import NotFound222 from '../views/NotFound222'
+import NotFound222 from '../views/NotFound222'
 import AdminRouterMap from './admin/index'
 
 Vue.use(Router);
@@ -42,28 +42,16 @@ for(var i in routes){
     routePathsNotRequiredAuth.push(routes[i].path);
 }
 
-var roleRouterMap = [
+routes.push(
     {
-        path: '/logout',
-        name: '登出',
-        roles: '*'
-    },
-    {
-        path: '/',
-        name: '首页',
-        component: Index,
-        roles: '*'
+        path: '/admin',
+        name: '后台管理',
+        required_roles: ['super_admin'],
+        children: AdminRouterMap
     }
-];
-
-for(var i in roleRouterMap){
-    routes.push(roleRouterMap[i]);
-}
+);
 
 
-routes.push(AdminRouterMap);
-
-routes.push({ path: '*', name: '404', component: NotFound404 });
 
 
 
@@ -73,9 +61,9 @@ routes.push({ path: '*', name: '404', component: NotFound404 });
 var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
 
 var checkToken = false;
-//console.warn('2. LocalStorgeToken is exist :'+ (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !=''));
+console.warn('2. LocalStorgeToken is exist :'+ (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !=''));
 
-if (1!=1 && typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
+if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
 
     checkToken = true;
 
@@ -158,10 +146,10 @@ if (1!=1 && typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
     });
 }
 
-/*if(checkToken){
+if(checkToken){
     var router222 = { path: '/222', name: '222', component: NotFound222 }
     routes.push(router222);
-}*/
+}
 
 
 const router = new Router({
@@ -171,51 +159,100 @@ const router = new Router({
 });
 
 
-
-
 console.log('before each 1111');
-
-console.log(router);
-
 router.beforeEach((to, from, next) => {
-
-    console.log('router.beforeEach | path :'+ to.fullPath);
+    console.log('before each 222');
 
     if (to.path =="/logout") {
-
         store.dispatch('auths/Logout').then(() => {
-
+            /*store.dispatch('GenerateRoutes', {roles: [], router: router}).then(() => { // 生成可访问的路由表
+                router.replace(store.getters.auth_add_routes) // 动态添加可访问路由表
+            });*/
             next({path: '/login'});
-
         })
-
     } else {
 
-        if (router.options.routePathsNotRequiredAuth.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
+        const auths = store.state.auths.is_login;
 
-            console.log('white');
-
+        if(user){
+            console.log('is login');
+            console.log(router);
             next();
-
         }else{
+            if(to.path == 'login'){
+                next();
+            }else if(checkToken && to.path == '/222'){
+                console.log('sssssss');
+                console.log(checkToken);
+                console.log(from);
+                console.log(to);
+                next();
+            }else{
+                if(checkToken){
+                    console.log('sssss222');
+                    console.log(checkToken);
+                    console.log(from);
+                    console.log(to);
+                    next({path:'/222',query:{redirectUrl:to.fullPath}});
+                }else{
+                    if (router.options.routePathsNotRequiredAuth.indexOf(to.path) !== -1) { // 在路由免登录白名单，直接进入
+                        console.log('white');
 
-            const isLogin = store.getters['auths/is_login'];
 
-            if(isLogin){
 
-console.log('is_login');
-                /*if (isAuth) {
-                    next()
-                } else {
-                    next('/no-auth')
-                }*/
-                next()
-            }else {
-                //next({path: '/login', query: {redirectUrl: to.fullPath}});
-                next({path: '/login'});
+                        next();
+                    } else {
+                        console.warn("需要登录");
+                        next({path: '/login',query:{redirectUrl:to.fullPath}});
+                    }
+                }
             }
         }
     }
 });
 
+
+
 export default router;
+
+
+
+/*export default new Router({
+    mode : 'history',
+    routes: constantRouterMap,
+    constantRoutes : constantRoutes,
+    roleRouterMap : roleRouterMap,
+    roleRoutes : roleRoutes,
+    router404: router404
+});*/
+
+/*export default new Router({
+    mode : 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'Index',
+            component: Index
+        },
+        {
+            path: '/about',
+            name: 'About',
+            component: About
+        },
+        {
+            path: '/user',
+            name: 'User',
+            component: User
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/logout',
+            name: 'Logout',
+            component: Logout
+        }
+    ]
+})*/

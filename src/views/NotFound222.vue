@@ -1,7 +1,7 @@
 <template>
-    <div class="not-found-404">
-        222
-    </div>
+    <el-dialog id="checkAuth" title="用户认证中" v-bind:visible=true size="full"  v-bind:showClose=false>
+
+    </el-dialog>
 </template>
 
 <script>

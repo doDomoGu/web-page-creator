@@ -19,7 +19,7 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/logout') {
         store.dispatch('auths/Logout').then(() => {
             store.dispatch('auths/GenerateRoutes', {roles: [], router: router}).then(() => { // 生成可访问的路由表
-                router.replace(store.getters['auths/add_routes']) // 动态添加可访问路由表
+                r//outer.replace(store.getters['auths/add_routes']) // 动态添加可访问路由表
             });
             next({path: '/login'});
         })

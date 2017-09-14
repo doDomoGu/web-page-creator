@@ -178,32 +178,8 @@ console.log(routes);
             });
         });
     },
-    GetAuthInfo({commit},token){
-        return new Promise((resolve, reject) => {
-            axios.get(
-                '/auths',
-                {
-                    params: {
-                        token: token
-                    }
-                }
-            )
-                .then((res) => {
-                    commit('setToken',{token:res.data.token});
-                    commit('setLoginState');
-                    commit('setUserId',{user_id:res.data.user_id});
-                    commit('setRoles',{roles:res.data.roles});
-                    resolve(res);
-                })
-                .catch(error => {
-                    reject(error);
-                });
-        });
-    },
     SetStore({commit},data){
         console.warn("  ** setStore **");
-
-
         commit('setToken',{token:data.token,forceUpdate:data.tokenForceUpdate});
         commit('setLoginState');
         commit('setUserId',{user_id:data.user_id});
@@ -211,7 +187,6 @@ console.log(routes);
     },
     CleanStore({commit}){
         console.warn("  ** cleanStore **");
-
         commit('cleanLoginState');
     }
 
@@ -230,7 +205,6 @@ const mutations = {
         state.token = data.token;
         if(data.forceUpdate) {
             localStorage.__WPC_AUTH_TOKEN__ = data.token;
-            //Cookies.set('wpc_auth_token', data.token, {expires: 1, path: '/'}); //expires 单位为天
         }
     },
     setLoginState: (state) => {
@@ -251,10 +225,7 @@ const mutations = {
         state.token = '';
         state.roles = [];
         localStorage.removeItem('__WPC_AUTH_TOKEN__');
-                //Cookies.remove('wpc_auth_token');
-
     }
-
 };
 
 export default {
