@@ -12,7 +12,6 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 
-console.warn(' main ');
 /*var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
 
 if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {

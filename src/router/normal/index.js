@@ -3,7 +3,7 @@ import Index from '../../views/Index'
 import About from '../../components/About'
 import Login from '../../views/Login'
 
-var     routes = [{
+var routes = [{
     path: '/',
     required_roles: ['super_admin'],
     component: Main,

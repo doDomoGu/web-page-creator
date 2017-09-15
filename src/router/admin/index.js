@@ -7,10 +7,10 @@ var routes = {
     path: '/admin',
     name: '后台管理',
     required_roles: ['super_admin'],
-    component : Main,
     meta: {
         requireAuths: true
     },
+    component: Main,
     children: [
         {
             path: 'user',

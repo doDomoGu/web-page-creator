@@ -1,18 +1,13 @@
 <template>
-    <div>
-        <sidebar></sidebar>
-     <router-view></router-view>
-    </div>
+    <router-view></router-view>
 </template>
 
 <script>
-    import Sidebar from './views/layouts/sidebar'
+    //import Sidebar from './views/layouts/sidebar'
     //import { mapState,mapMutations} from 'vuex'
-
-
     export default {
-        name: 'app',
-        components: { 'sidebar': Sidebar }
+        name: 'app'/*,
+        components: { 'sidebar': Sidebar }*/
     }
 </script>
 
@@ -25,10 +20,10 @@
         height:100%;
     }
 
-    /*#main {
+    #main {
         margin-left:240px;
         padding:24px;
-    }*/
+    }
 
     /*#app {
       font-family: 'Avenir', Helvetica, Arial, sans-serif;

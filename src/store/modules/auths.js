@@ -10,7 +10,7 @@ const state = {
     user_id: 0,
     token: '',
     roles: [],
-    add_routes: []
+    //add_routes: []
 };
 
 const actions = {
@@ -87,55 +87,6 @@ const actions = {
                 reject(error);
             });*/
     },
-    GenerateRoutes({commit}, data){
-        var routes = [];
-
-        var roles = data.roles;
-
-        var routerMap = data.router.options.roleRouterMap;
-
-        for(var i in routerMap){
-            if(routerMap[i].roles == '*'){
-                routes.push(routerMap[i]);
-            }else if(roles) {
-                for(var j in roles){
-                    if(roles[j] == 'super_admin' || routerMap[i].roles.indexOf(roles[j]) !== -1){
-                        routes.push(routerMap[i]);
-                    }
-                }
-
-            }
-        }
-
-
-        /*//通用角色路由
-        var routeAll = data.router.options.roleAllRouterMap;
-        for(var i in routeAll){
-            routes.push(routeAll[i]);
-        }
-
-        //指定角色路由
-        var roles = data.roles;
-        var routeOne = data.router.options.roleOneRouterMap;
-        for(var i in routeOne){
-            for(var j in roles){
-                if(routeOne[i].roles.indexOf(roles[j]) !== -1){
-                    routes.push(routeOne[i]);
-  //                  console.log(routeOne[i]);
-                }
-            }
-        }*/
-//console.log(data.router.options.router404)
-        //404页面
-        routes.push(
-            data.router.options.router404
-        );
-        console.log('');
-        console.log('auths generate route');
-console.log(routes);
-
-        commit('setAddRoutes',routes);
-    },
     CheckToken({dispatch,commit},token){
         console.warn('   2.1 checkToken');
         dispatch('SetStore',{is_login:true,token:token});
@@ -154,14 +105,6 @@ console.log(routes);
                     console.warn('   2.1.1 checkToken success');
 
                     dispatch('SetStore',res.data);
-
-                    /*dispatch('auths/GenerateRoutes', {roles: res.data.roles, router: router}).then(() => { // 生成可访问的路由表
-                        console.log(this.getters['auths/add_routes']);
-
-                        //router.addRoutes() // 动态添加可访问路由表
-                    });*/
-                    //next();
-                    //next(to.path);
 
                 } else {
                     console.warn('   2.1.2 checkToken failure');
@@ -200,7 +143,7 @@ const getters = {
     token: state => state.token,
     roles: state => state.roles,
     user_id: state => state.user_id,
-    add_routes: state => state.add_routes,
+    //add_routes: state => state.add_routes,
     is_login: state => state.is_login
 };
 
@@ -220,9 +163,9 @@ const mutations = {
     setRoles: (state, data) => {
         state.roles = data.roles;
     },
-    setAddRoutes: (state, data) => {
+    /*setAddRoutes: (state, data) => {
         state.add_routes = data;
-    },
+    },*/
     cleanLoginState: (state) => {
         state.is_login = false;
         state.user_id = 0;

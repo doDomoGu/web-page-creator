@@ -1,7 +1,7 @@
 <template>
     <div id="sidebar">
-        <button v-on:click="test">test</button>
-        <el-menu  v-if="is_login"  :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
+        <!--<button v-on:click="test">test</button>-->
+        <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
             <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
             <el-menu-item index="/admin"><i class="el-icon-menu"></i>首页222</el-menu-item>
             <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
@@ -15,23 +15,22 @@
             </el-submenu>
             <el-menu-item index="/logout"><i class="el-icon-caret-right"></i>退出</el-menu-item>
         </el-menu>
-        <div>
+        <!--<div>
             <input v-model="username"/>  {{username}}
              {{username22}}
 
-        </div>
+        </div>-->
     </div>
 </template>
 <script>
 export default {
     data(){
-
-        var is_login = this.$store.getters['auths/is_login'];
+        //var is_login = this.$store.getters['auths/is_login'];
 
         return {
-            is_login:is_login,
+            /*is_login:is_login,
             username:this.$store.getters['auths/user_id'],
-            username22:this.$store.state.auths.user_id
+            username22:this.$store.state.auths.user_id*/
         }
     },
     methods: {
@@ -42,9 +41,8 @@ export default {
             //console.log('close',key, keyPath);
         },
         handleSelect(key, keyPath) {
-            console.error(this.$store.getters['auths/user_id']);
             //console.log('select',key, keyPath);
-        },
+        }/*,
         test() {
             console.log('s    ');
             console.log('is_login : ',this.$store.getters['auths/is_login']);
@@ -58,7 +56,7 @@ export default {
             console.log('is_login : ',this.$store.getters['auths/is_login']);
             console.log(this.is_login);
 
-        }
+        }*/
 
     },
     created(){
