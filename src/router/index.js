@@ -39,8 +39,8 @@ const router = new Router({
 //console.log(router);
 
 router.beforeEach((to, from, next) => {
-  //  console.log('  ');
-  //  console.log('router.beforeEach | path :'+ to.fullPath);
+    console.log('  ');
+    console.log('router.beforeEach | path :'+ to.fullPath);
 
     if (to.path === "/logout") {
 
@@ -61,27 +61,36 @@ router.beforeEach((to, from, next) => {
             var isLogin = store.getters['auths/is_login'];
 
             if(isLogin){
-                next()
+
+                //权限验证
+                console.log(to.meta.requireRoles);
+                console.log(store.getters['auths/roles']);
+
+
+
+                next();
+
             }else {
                 var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
 
                 if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
 
-                    console.warn(' checkToken start ');
+                    //console.warn(' checkToken start ');
 
                     store.dispatch('auths/CheckToken',tokenInLocalStorge).then(() => {
 
-                        console.warn('checkToken finish');
+                      //  console.warn('checkToken finish');
 
                         if(store.getters['auths/is_login']){
-                            next();
+
+                            next(to.path);
                         }else{
                             next('/login');
                         }
                     });
                 }else {
                     //next({path: '/login', query: {redirectUrl: to.fullPath}});
-                    next({path: '/login'});
+                    next({path: '/login',query:{redirectUrl:to.fullPath}});
                 }
             }
         }

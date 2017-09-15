@@ -1,9 +1,7 @@
 <template>
     <div id="sidebar">
-        <!--<button v-on:click="test">test</button>-->
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
             <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
-            <el-menu-item index="/admin"><i class="el-icon-menu"></i>首页222</el-menu-item>
             <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
 
             <el-submenu index="admin">

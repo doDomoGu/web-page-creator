@@ -6,7 +6,6 @@ import Website from '../../views/admin/websites'
 var routes = {
     path: '/admin',
     name: '后台管理',
-    required_roles: ['super_admin'],
     meta: {
         requireAuths: true
     },
@@ -18,7 +17,7 @@ var routes = {
             component: User,
             meta: {
                 requireAuths: true,
-                roles: ['user_admin']
+                requireRoles: ['user_admin']
             }
         },
         {
@@ -27,7 +26,7 @@ var routes = {
             component: Usergroup,
             meta: {
                 requireAuths: true,
-                roles: ['user_admin']
+                requireRoles: ['user_admin']
             }
         }/*,
         {

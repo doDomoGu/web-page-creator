@@ -1,6 +1,5 @@
 <template>
     <el-row class="user-main">
-        <router-link to="/">home</router-link>
         <el-form :inline="true" :model="searchForm" class="demo-form-inline">
             <el-form-item label="用户名">
                 <el-input v-model="searchForm.username" placeholder="用户名"></el-input>

@@ -3,9 +3,6 @@ import NotFound404 from '../views/NotFound404'
 
 var routes = {
     path: '/',
-    meta: {
-        requireAuths: true
-    },
     component: Main,
     children: [
         {

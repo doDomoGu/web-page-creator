@@ -47,8 +47,13 @@
 
                             this.$router.push({ path: '/' }); //登录成功之后重定向到首页
                         });*/
-                        this.$router.push({ path: '/' });
 
+
+                        var redirectUrl = this.$route.query.redirectUrl;
+                        if(redirectUrl)
+                            this.$router.push({ path: redirectUrl });
+                        else
+                            this.$router.push({ path: '/' });
                     }else{
                         //console.log('submit login failure');
                         //this.errormsg = res.data.errormsg;

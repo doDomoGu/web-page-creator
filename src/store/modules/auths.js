@@ -47,48 +47,17 @@ const actions = {
             .then((res) => {
                 if(res.data && res.data.success){
                     res.data.tokenForceUpdate = true;
-
                     dispatch('SetStore',res.data);
-                    /*commit('setToken',{token:res.data.token,updateToken:true});
-                    commit('setLoginState');
-                    commit('setUserId',{user_id:res.data.user_id});
-                    commit('setRoles',{roles:res.data.roles});*/
                 }
-
-
-
-
-                /*Cookies.set('name', 'value', { expires: 7, path: '' });//7天过期
-                Cookies.set('name', { foo: 'bar' });//设置一个json
-                b、读取cookie
-                Cookies.get('name');//获取cookie
-                Cookies.get(); #读取所有的cookie
-                c、删除cookie
-                Cookies.remove('name'); #删除cookie时必须是同一个路径。*/
                 resolve(res);
             })
             .catch(error => {
                 reject(error);
             });
         });
-
-
-            /*loginByEmail(email, userInfo.password).then(response => {
-                const data = response.data;
-                Cookies.set('Token', response.data.token); //登录成功后将token存储在cookie之中
-
-
-                //commit('SET_TOKEN', data.token);
-                //commit('SET_EMAIL', email);
-
-
-                resolve();
-            }).catch(error => {
-                reject(error);
-            });*/
     },
     CheckToken({dispatch,commit},token){
-        console.warn('   2.1 checkToken');
+        //console.warn('   2.1 checkToken');
         dispatch('SetStore',{is_login:true,token:token});
 
         return new Promise((resolve, reject) => {
@@ -102,12 +71,12 @@ const actions = {
             )
             .then((res) => {
                 if (res.data && res.data.success) {
-                    console.warn('   2.1.1 checkToken success');
+                    //console.warn('   2.1.1 checkToken success');
 
                     dispatch('SetStore',res.data);
 
                 } else {
-                    console.warn('   2.1.2 checkToken failure');
+                    //console.warn('   2.1.2 checkToken failure');
 
                     //提交的token 错误
                     dispatch('CleanStore');
@@ -122,21 +91,16 @@ const actions = {
         });
     },
     SetStore({commit},data){
-        console.warn("  ** setStore **");
+        //console.warn("  ** setStore **");
         commit('setToken',{token:data.token,forceUpdate:data.tokenForceUpdate});
         commit('setLoginState');
         commit('setUserId',{user_id:data.user_id});
         commit('setRoles',{roles:data.roles});
     },
     CleanStore({commit}){
-        console.warn("  ** cleanStore **");
+        //console.warn("  ** cleanStore **");
         commit('cleanLoginState');
     }
-
-    ,SetIsLogin({commit},isLogin){
-        commit('setIsLogin',isLogin);
-    }
-
 };
 
 const getters = {

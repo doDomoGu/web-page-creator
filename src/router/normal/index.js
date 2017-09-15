@@ -5,7 +5,6 @@ import Login from '../../views/Login'
 
 var routes = [{
     path: '/',
-    required_roles: ['super_admin'],
     component: Main,
     children: [
         {
@@ -14,7 +13,7 @@ var routes = [{
             component: Index,
             meta: {
                 requireAuths: true,
-                roles: '*'
+                requireRoles: '*'
             }
         },
 
@@ -37,7 +36,7 @@ var routes = [{
     name: '登出',
     meta: {
         requireAuths: true,
-        roles: '*'
+        requireRoles: '*'
     }
 }];
 
