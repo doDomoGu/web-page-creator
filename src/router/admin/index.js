@@ -1,19 +1,16 @@
-import Admin from '../../views/layouts/admin';
+import Main from '../../views/layouts/main';
 import User from '../../views/admin/user'
 import Usergroup from '../../views/admin/usergroup'
 import Website from '../../views/admin/websites'
-
-
-
-/*const Admin = {
-    template: '<div><div>sdsadasd</div> <router-view></router-view></div>'
-}*/
 
 var routes = {
     path: '/admin',
     name: '后台管理',
     required_roles: ['super_admin'],
-    component : Admin,
+    component : Main,
+    meta: {
+        requireAuths: true
+    },
     children: [
         {
             path: 'user',

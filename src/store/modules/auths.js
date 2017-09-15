@@ -138,7 +138,7 @@ console.log(routes);
     },
     CheckToken({dispatch,commit},token){
         console.warn('   2.1 checkToken');
-        //dispatch('SetStore',{user_id:1,roles:['super_admin']});
+        dispatch('SetStore',{is_login:true,token:token});
 
         return new Promise((resolve, reject) => {
             axios.get(
@@ -190,6 +190,10 @@ console.log(routes);
         commit('cleanLoginState');
     }
 
+    ,SetIsLogin({commit},isLogin){
+        commit('setIsLogin',isLogin);
+    }
+
 };
 
 const getters = {
@@ -225,7 +229,10 @@ const mutations = {
         state.token = '';
         state.roles = [];
         localStorage.removeItem('__WPC_AUTH_TOKEN__');
-    }
+    },
+    setIsLogin: (state,isLogin) => {
+        state.is_login = isLogin;
+    },
 };
 
 export default {

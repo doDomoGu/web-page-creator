@@ -62,21 +62,39 @@ router.beforeEach((to, from, next) => {
 
         }else{
 
-            var isLogin = store.getters['auths/is_login'];
 
-            if(isLogin){
+                var isLogin = store.getters['auths/is_login'];
 
-console.log('is_login');
-                /*if (isAuth) {
+                if(isLogin){
+
+
+
+                    console.log('is_login');
+                    /*if (isAuth) {
+                        next()
+                    } else {
+                        next('/no-auth')
+                    }*/
                     next()
-                } else {
-                    next('/no-auth')
-                }*/
-                next()
-            }else {
-                //next({path: '/login', query: {redirectUrl: to.fullPath}});
-                next({path: '/login'});
-            }
+                }else {
+                    var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
+
+                    if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
+
+                        console.warn(' checkToken start ');
+                        store.dispatch('auths/CheckToken',tokenInLocalStorge).then(() => {
+                            console.warn('checkToken finish');
+                            next();
+
+
+                            //router.push('/');
+                        });
+                    }else {
+                        //next({path: '/login', query: {redirectUrl: to.fullPath}});
+                        next({path: '/login'});
+                    }
+                }
+
         }
     }
 });

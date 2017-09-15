@@ -1,20 +1,18 @@
 <template>
-    <div id="app">
-        <!--<sidebar></sidebar>-->
-        <div id="main">
-            <router-view></router-view>
-        </div>
+    <div>
+        <sidebar></sidebar>
+     <router-view></router-view>
     </div>
 </template>
 
 <script>
-    //import Sidebar from './views/layouts/sidebar.vue'
+    import Sidebar from './views/layouts/sidebar'
     //import { mapState,mapMutations} from 'vuex'
 
 
     export default {
-        name: 'app'
-        //components: { 'sidebar': Sidebar }
+        name: 'app',
+        components: { 'sidebar': Sidebar }
     }
 </script>
 

@@ -12,16 +12,17 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 
-
-var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
+console.warn(' main ');
+/*var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
 
 if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
 
+    console.warn(' checkToken start ');
     store.dispatch('auths/CheckToken',tokenInLocalStorge).then(() => {
-        console.log('checkToken finish');
+        console.warn('checkToken finish');
         router.push('/');
     });
-}
+}*/
 
 new Vue({
     el: '#app',
