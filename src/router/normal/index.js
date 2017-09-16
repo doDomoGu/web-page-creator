@@ -2,13 +2,14 @@ import Main from '../../views/layouts/main';
 import Index from '../../views/Index'
 import About from '../../components/About'
 import Login from '../../views/Login'
+import NoAuth from '../../views/NoAuth'
 
 var routes = [{
     path: '/',
     component: Main,
     children: [
         {
-            path: '/',
+            path: '',
             name: '首页',
             component: Index,
             meta: {
@@ -16,7 +17,15 @@ var routes = [{
                 requireRoles: '*'
             }
         },
-
+        {
+            path: 'no-auth',
+            name: '没有权限',
+            component: NoAuth,
+            meta: {
+                requireAuths: true,
+                requireRoles: '*'
+            }
+        },
         {
             path: '/about',
             component: About,

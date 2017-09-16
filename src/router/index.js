@@ -39,8 +39,8 @@ const router = new Router({
 //console.log(router);
 
 router.beforeEach((to, from, next) => {
-    console.log('  ');
-    console.log('router.beforeEach | path :'+ to.fullPath);
+    //console.log('  ');
+    //console.log('router.beforeEach | path :'+ to.fullPath);
 
     if (to.path === "/logout") {
 
@@ -63,13 +63,24 @@ router.beforeEach((to, from, next) => {
             if(isLogin){
 
                 //权限验证
-                console.log(to.meta.requireRoles);
-                console.log(store.getters['auths/roles']);
+                var authFlag = false;
+                var requireRoles = to.meta.requireRoles;
+                var userRoles = store.getters['auths/roles'];
 
-
-
-                next();
-
+                if(requireRoles === '*' || userRoles.indexOf('super_admin')>-1){
+                    authFlag = true;
+                }else{
+                    for(let i in requireRoles){
+                        if(authFlag === false && userRoles.indexOf(requireRoles[i])>-1){
+                            authFlag = true;
+                        }
+                    }
+                }
+                if(authFlag){
+                    next();
+                }else{
+                    next({path:'/no-auth'});
+                }
             }else {
                 var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
 
@@ -82,9 +93,9 @@ router.beforeEach((to, from, next) => {
                       //  console.warn('checkToken finish');
 
                         if(store.getters['auths/is_login']){
-
                             next(to.path);
                         }else{
+                            console.log('token 222');
                             next('/login');
                         }
                     });
