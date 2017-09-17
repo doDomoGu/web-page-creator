@@ -4,7 +4,7 @@
             <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
             <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
 
-            <el-submenu index="admin">
+            <el-submenu v-if="isAuth('/admin')" index="admin">
                 <template slot="title">
                     <i class="el-icon-caret-right"></i>后台管理
                 </template>
@@ -32,6 +32,11 @@ export default {
         }
     },
     methods: {
+        isAuth(path){
+            console.log(this.$router);
+
+           return false;
+        },
         handleOpen(key, keyPath) {
             //console.log('open',key, keyPath);
         },

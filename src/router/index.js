@@ -29,6 +29,8 @@ routes.push(AdminRoutes);
 routes.push(NotFound404Routes);
 
 
+store.dispatch('auths/SetRoutes',routes);
+
 const router = new Router({
     mode:'history',
     routes

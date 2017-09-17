@@ -10,6 +10,7 @@ const state = {
     user_id: 0,
     token: '',
     roles: [],
+    routes: [],
     //add_routes: []
 };
 
@@ -100,6 +101,46 @@ const actions = {
     CleanStore({commit}){
         //console.warn("  ** cleanStore **");
         commit('cleanLoginState');
+    },
+    SetRoutes({commit},routes){
+
+        let getRoutes = function(path,_routes){
+            console.log(path,_routes);
+            let ret = [];
+            if(_routes.length>0){
+                //let path2 = path;
+                if(path!=='' && path!=='/'){
+                    path = path + '/';
+                }
+
+                for(let i in _routes){
+
+                    //ret.push(_routes[i]);
+                    if(_routes[i].path==='*'){
+                        ret['*'] = _routes[i].meta;
+                    }else{
+                        ret[path + _routes[i].path] = _routes[i].meta;
+
+                        if(_routes[i].children && _routes[i].children.length>0){
+                            let children = getRoutes(path + _routes[i].path,_routes[i].children);
+                            for(let j in children){
+                                ret[j] = children[j];
+                            }
+                        }
+                    }
+                }
+            }
+console.log(ret);
+            return ret;
+
+        };
+
+        let data = getRoutes('',routes);
+
+
+
+
+        commit('setRoutes',data);
     }
 };
 
@@ -140,6 +181,9 @@ const mutations = {
     setIsLogin: (state,isLogin) => {
         state.is_login = isLogin;
     },
+    setRoutes: (state,data) => {
+        state.routes = data;
+    }
 };
 
 export default {

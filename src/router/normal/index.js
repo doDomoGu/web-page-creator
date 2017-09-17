@@ -7,6 +7,10 @@ import NoAuth from '../../views/NoAuth'
 var routes = [{
     path: '/',
     component: Main,
+    meta: {
+        requireAuths: true,
+        requireRoles: '*'
+    },
     children: [
         {
             path: '',
@@ -27,7 +31,7 @@ var routes = [{
             }
         },
         {
-            path: '/about',
+            path: 'about',
             component: About,
             name: '关于我们',
             //hidden: true //hidden为自定义属性，侧边栏那章会纤细解释
@@ -41,7 +45,7 @@ var routes = [{
     name: '登录页',
 },
 {
-    path: '/logout',
+    path: 'logout',
     name: '登出',
     meta: {
         requireAuths: true,
