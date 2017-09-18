@@ -1,10 +1,13 @@
 <template>
     <div id="sidebar">
+        <div>
+            {{username}}
+        </div>
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
             <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
             <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
 
-            <el-submenu v-if="isAuth('/admin')" index="admin">
+            <el-submenu v-if="isAuth('/admin')" index="/admin">
                 <template slot="title">
                     <i class="el-icon-caret-right"></i>后台管理
                 </template>
@@ -23,19 +26,33 @@
 <script>
 export default {
     data(){
-        //var is_login = this.$store.getters['auths/is_login'];
 
         return {
-            /*is_login:is_login,
             username:this.$store.getters['auths/user_id'],
-            username22:this.$store.state.auths.user_id*/
         }
     },
     methods: {
         isAuth(path){
-            console.log(this.$router);
+            let ret = false;
+            let routes = this.$store.getters['auths/routes'];
+            let roles = this.$store.getters['auths/roles'];
 
-           return false;
+
+
+            if(path in routes){
+                let route = routes[path];
+
+                if(typeof route==='undefined' || !('requireAuths' in route) || route.requireAuths !== true || roles.indexOf('super_admin')>-1){
+                    ret = true;
+                } else {
+                    for(let i in route.requireRoles){
+                        if(ret === false && roles.indexOf(route.requireRoles[i])>-1){
+                            ret = true;
+                        }
+                    }
+                }
+            }
+            return ret;
         },
         handleOpen(key, keyPath) {
             //console.log('open',key, keyPath);

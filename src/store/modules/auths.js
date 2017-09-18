@@ -105,7 +105,7 @@ const actions = {
     SetRoutes({commit},routes){
 
         let getRoutes = function(path,_routes){
-            console.log(path,_routes);
+            //console.log(path,_routes);
             let ret = [];
             if(_routes.length>0){
                 //let path2 = path;
@@ -130,7 +130,7 @@ const actions = {
                     }
                 }
             }
-console.log(ret);
+//console.log(ret);
             return ret;
 
         };
@@ -149,7 +149,8 @@ const getters = {
     roles: state => state.roles,
     user_id: state => state.user_id,
     //add_routes: state => state.add_routes,
-    is_login: state => state.is_login
+    is_login: state => state.is_login,
+    routes: state => state.routes
 };
 
 const mutations = {
