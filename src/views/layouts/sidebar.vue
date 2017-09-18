@@ -11,8 +11,9 @@
                 <template slot="title">
                     <i class="el-icon-caret-right"></i>后台管理
                 </template>
-                <el-menu-item index="/admin/user">用户</el-menu-item>
-                <el-menu-item index="/admin/usergroup">用户组</el-menu-item>
+                <el-menu-item v-if="isAuth('/admin/user')" index="/admin/user">用户</el-menu-item>
+                <el-menu-item v-if="isAuth('/admin/usergroup')" index="/admin/usergroup">用户组</el-menu-item>
+                <el-menu-item v-if="isAuth('/admin/website')" index="/admin/website">站点</el-menu-item>
             </el-submenu>
             <el-menu-item index="/logout"><i class="el-icon-caret-right"></i>退出</el-menu-item>
         </el-menu>
@@ -36,8 +37,6 @@ export default {
             let ret = false;
             let routes = this.$store.getters['auths/routes'];
             let roles = this.$store.getters['auths/roles'];
-
-
 
             if(path in routes){
                 let route = routes[path];
@@ -80,7 +79,7 @@ export default {
 
     },
     created(){
-        console.log('sidebar created');
+        //console.log('sidebar created');
     }
 }
 </script>

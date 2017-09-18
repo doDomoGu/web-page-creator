@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { mapActions,mapMutations } from 'vuex'
+/*import { mapActions,mapMutations } from 'vuex'*/
 import axios from '../../../axios'
 import qs from 'qs'
 

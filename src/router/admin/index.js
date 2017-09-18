@@ -1,7 +1,7 @@
 import Main from '../../views/layouts/main';
 import User from '../../views/admin/user'
 import Usergroup from '../../views/admin/usergroup'
-import Website from '../../views/admin/websites'
+import Website from '../../views/admin/website'
 
 var routes = {
     path: '/admin',
@@ -29,13 +29,13 @@ var routes = {
                 requireAuths: true,
                 requireRoles: ['user_admin']
             }
-        }/*,
+        },
         {
             path: 'website',
             name: '网站',
             component: Website,
             require_roles: ['website_admin']
-        }*/
+        }
     ]
 };
 
