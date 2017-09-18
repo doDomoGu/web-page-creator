@@ -34,7 +34,10 @@ var routes = {
             path: 'website',
             name: '网站',
             component: Website,
-            require_roles: ['website_admin']
+            meta: {
+                requireAuths: true,
+                requireRoles: ['website_admin']
+            }
         }
     ]
 };
