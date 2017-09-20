@@ -97,7 +97,7 @@ router.beforeEach((to, from, next) => {
                         if(store.getters['auths/is_login']){
                             next(to.path);
                         }else{
-                            console.log('token 222');
+                            //console.log('token 222');
                             next('/login');
                         }
                     });
