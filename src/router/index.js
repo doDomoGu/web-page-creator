@@ -69,11 +69,11 @@ router.beforeEach((to, from, next) => {
                 var requireRoles = to.meta.requireRoles;
                 var userRoles = store.getters['auths/roles'];
 
-                if(requireRoles === '*' || userRoles.indexOf('super_admin')>-1){
+                if(requireRoles === '*' || userRoles.includes('super_admin')){
                     authFlag = true;
                 }else{
                     for(let i in requireRoles){
-                        if(authFlag === false && userRoles.indexOf(requireRoles[i])>-1){
+                        if(authFlag === false && userRoles.includes(requireRoles[i])){
                             authFlag = true;
                         }
                     }
