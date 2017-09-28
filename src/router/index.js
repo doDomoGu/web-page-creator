@@ -28,7 +28,6 @@ routes.push(AdminRoutes);
 //最后载入404页面
 routes.push(NotFound404Routes);
 
-
 store.dispatch('auths/SetRoutes',routes);
 
 const router = new Router({
@@ -86,7 +85,7 @@ router.beforeEach((to, from, next) => {
             }else {
                 var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
 
-                if (typeof(tokenInLocalStorge)=='string' && tokenInLocalStorge !='') {
+                if (typeof(tokenInLocalStorge)==='string' && tokenInLocalStorge !=='') {
 
                     //console.warn(' checkToken start ');
 
