@@ -7,14 +7,7 @@ const state = {
         status:'',
         verify:''
     },
-    default_users:{
-        username: '',
-        name: '',
-        mobile:'',
-        email:'',
-        status:'',
-        verify:''
-    }
+    default_users:{}
 };
 const actions = {
     UpdateUsers({ commit }, formData) {
@@ -26,7 +19,8 @@ const actions = {
 };
 
 const getters = {
-    users: state => state.users
+    users: state => state.users,
+    default_users: state => state.default_users
 };
 
 const mutations = {
@@ -34,7 +28,11 @@ const mutations = {
         state.users = data;
     },
     reset_users: state => {
-        state.users = state.default_users;
+        for(let i in state.default_users){
+            if(state.default_users.hasOwnProperty(i) && state.users.hasOwnProperty(i)){
+                state.users[i] = state.default_users[i];
+            }
+        }
     }
 };
 

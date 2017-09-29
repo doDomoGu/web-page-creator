@@ -118,10 +118,12 @@ export default {
         this.loading = true;
 
         //读取store中搜索条件
-        var s = this.$store.getters['search/users'];
-        for(var i in s){
-            //对searchForm字段初始化
-            this.$set(this.searchForm,i,s[i]);
+        let s = this.$store.getters['search/default_users'];
+        for(let i in s){
+            if(s.hasOwnProperty(i)){
+                //对searchForm字段初始化
+                this.$set(this.searchForm,i,s[i]);
+            }
         }
 
         //读取store中users模型
@@ -149,17 +151,20 @@ export default {
         onRefresh: function(){
             this.loading = true;
             //读取store里的搜索条件
-            this.getData(this.$store.getters['search/users']);
+            this.getData(this.$store.getters['search/default_users']);
         },
         onReset: function(){
             this.loading = true;
             //重置搜索条件
             this.$store.dispatch('search/ResetUsers');
             //重新获取初始条件
-            var s = this.$store.getters['search/users'];
-            for(var i in s){
-                //对searchForm字段初始化
-                this.$set(this.searchForm,i,s[i])
+            let s = this.$store.getters['search/users'];
+            for(let i in s){
+                if(s.hasOwnProperty(i)){
+                    console.log('reset: ',i,s[i]);
+                    //对searchForm字段初始化
+                    this.$set(this.searchForm,i,s[i])
+                }
             }
             this.page = 1;
 
