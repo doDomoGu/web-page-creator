@@ -75,7 +75,7 @@ const actions = {
             .then((res) => {
                 if (res.data && res.data.success) {
                     //console.warn('   2.1.1 checkToken success');
-                    console.log(res.data);
+                    //console.log(res.data);
                     //dispatch('SetStore',{is_login:true,token:token});
                     dispatch('SetStore',res.data);
                 } else {

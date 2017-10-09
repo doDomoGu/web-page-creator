@@ -35,13 +35,17 @@ const router = new Router({
     routes
 });
 
-//console.log('before each 1111');
+//console.warn('2. beforeEach router');
 
 //console.log(router);
 
+//let beCount = 0;
+
 router.beforeEach((to, from, next) => {
     //console.log('  ');
-    //console.log('router.beforeEach | path :'+ to.fullPath);
+    //beCount++;
+
+    //console.warn('3. '+beCount+' path :'+ to.fullPath);
 
     if (to.path === "/logout") {
 
@@ -59,14 +63,14 @@ router.beforeEach((to, from, next) => {
             next();
 
         }else{
-            var isLogin = store.getters['auths/is_login'];
+            let isLogin = store.getters['auths/is_login'];
 
             if(isLogin){
 
                 //权限验证
-                var authFlag = false;
-                var requireRoles = to.meta.requireRoles;
-                var userRoles = store.getters['auths/roles'];
+                let authFlag = false;
+                let requireRoles = to.meta.requireRoles;
+                let userRoles = store.getters['auths/roles'];
 
                 if(requireRoles === '*' || userRoles.includes('super_admin')){
                     authFlag = true;
@@ -83,15 +87,15 @@ router.beforeEach((to, from, next) => {
                     next({path:'/no-auth'});
                 }
             }else {
-                var tokenInLocalStorge = localStorage.__WPC_AUTH_TOKEN__;
+                let tokenInLocalStorage = localStorage.__WPC_AUTH_TOKEN__;
 
-                if (typeof(tokenInLocalStorge)==='string' && tokenInLocalStorge !=='') {
+                if (typeof(tokenInLocalStorage)==='string' && tokenInLocalStorage !=='') {
 
-                    //console.warn(' checkToken start ');
+                    //console.warn(' checkToken start ',new Date().getTime());
 
-                    store.dispatch('auths/CheckToken',tokenInLocalStorge).then(() => {
+                    store.dispatch('auths/CheckToken',tokenInLocalStorage).then(() => {
 
-                      //  console.warn('checkToken finish');
+                        //console.warn(' checkToken finish',new Date().getTime());
 
                         if(store.getters['auths/is_login']){
                             next(to.path);
