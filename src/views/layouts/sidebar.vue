@@ -29,7 +29,7 @@ export default {
     data(){
 
         return {
-            username:this.$store.getters['auths/user_id'],
+            username:this.$store.getters['auths/user_info'].name,
         }
     },
     methods: {

@@ -8,9 +8,11 @@ import Router from 'vue-router'
 const state = {
     is_login: false,
     user_id: 0,
+    user_info:{},
     token: '',
     roles: [],
     routes: [],
+
     //add_routes: []
 };
 
@@ -59,7 +61,7 @@ const actions = {
     },
     CheckToken({dispatch,commit},token){
         //console.warn('   2.1 checkToken');
-        dispatch('SetStore',{is_login:true,token:token});
+
 
         return new Promise((resolve, reject) => {
             axios.get(
@@ -73,9 +75,9 @@ const actions = {
             .then((res) => {
                 if (res.data && res.data.success) {
                     //console.warn('   2.1.1 checkToken success');
-
+                    console.log(res.data);
+                    //dispatch('SetStore',{is_login:true,token:token});
                     dispatch('SetStore',res.data);
-
                 } else {
                     //console.warn('   2.1.2 checkToken failure');
 
@@ -96,6 +98,7 @@ const actions = {
         commit('setToken',{token:data.token,forceUpdate:data.tokenForceUpdate});
         commit('setLoginState');
         commit('setUserId',{user_id:data.user_id});
+        commit('setUserInfo',{user_info:data.user_info});
         commit('setRoles',{roles:data.roles});
     },
     CleanStore({commit}){
@@ -148,6 +151,7 @@ const getters = {
     token: state => state.token,
     roles: state => state.roles,
     user_id: state => state.user_id,
+    user_info: state => state.user_info,
     //add_routes: state => state.add_routes,
     is_login: state => state.is_login,
     routes: state => state.routes
@@ -166,6 +170,9 @@ const mutations = {
     setUserId: (state, data) => {
         state.user_id = data.user_id;
     },
+    setUserInfo: (state, data) => {
+        state.user_info = data.user_info;
+    },
     setRoles: (state, data) => {
         state.roles = data.roles;
     },
@@ -175,6 +182,7 @@ const mutations = {
     cleanLoginState: (state) => {
         state.is_login = false;
         state.user_id = 0;
+        state.user_info = {};
         state.token = '';
         state.roles = [];
         localStorage.removeItem('__WPC_AUTH_TOKEN__');
