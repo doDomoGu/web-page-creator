@@ -1,7 +1,7 @@
 <template>
     <div id="sidebar">
-        <div>
-            {{username}}
+        <div style="padding-left:20px;color:#eee;line-height:40px;">
+            用户：{{username}}
         </div>
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
             <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
