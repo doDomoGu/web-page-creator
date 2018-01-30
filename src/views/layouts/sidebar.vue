@@ -5,7 +5,8 @@
         </div>
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" v-bind:unique-opened=true @select="handleSelect" @open="handleOpen" @close="handleClose" router>
             <el-menu-item index="/"><i class="el-icon-menu"></i>首页</el-menu-item>
-            <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
+            <el-menu-item v-if="isAuth('/website')" index="/website"><i class="el-icon-setting"></i>网站</el-menu-item>
+            <el-menu-item v-if="isAuth('/setting')" index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
 
             <el-submenu v-if="isAuth('/admin')" index="/admin">
                 <template slot="title">
