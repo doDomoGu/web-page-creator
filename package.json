@@ -8,7 +8,6 @@
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
-    "build-prod": "NODE_ENV=production node build/build.js",
     "pm2": "NODE_APP_INSTANCE=web-page-creator PORT=8888  pm2 start build/dev-server.js --name=web-page-creator",
     "pm2-prod": "NODE_APP_INSTANCE=web-page-creator PORT=8888 NODE_ENV=production pm2 start build/dev-server.js --name=web-page-creator"
   },
